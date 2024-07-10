@@ -1,8 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+// src/App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Home';
+import Layout from './Layout';
 
 function App() {
-  return <h1>Project Client</h1>;
+  return (
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* Add other routes here */}
+        </Routes>
+      </Layout>
+    </Router>
+  );
 }
 
 export default App;
