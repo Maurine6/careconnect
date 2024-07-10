@@ -2,10 +2,11 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+
+from config import db, bcrypt
 from datetime import datetime
 import re
 
-from config import db, bcrypt
 
 class Patient(db.Model, SerializerMixin):
     __tablename__ = 'patients'
@@ -13,9 +14,11 @@ class Patient(db.Model, SerializerMixin):
     serialize_rules = ('-appointments.patient', '-bills.patient')
 
     id = db.Column(db.Integer, primary_key=True)
-    usernaname = db.Column(db.String(50), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(50))
     _password_hash = db.Column(db.String)
-    date_of_birth = db.Column(db.Date, nullable=False)
+    date_of_birth = db.Column(db.Integer, nullable=False)
     contact_number = db.Column(db.String(20))
     email = db.Column(db.String(120))
     
