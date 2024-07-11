@@ -13,7 +13,7 @@ class Patient(db.Model, SerializerMixin):
     serialize_rules = ('-appointments.patient', '-bills.patient')
 
     id = db.Column(db.Integer, primary_key=True)
-    usernaname = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(50), nullable=False)
     _password_hash = db.Column(db.String)
     date_of_birth = db.Column(db.Date, nullable=False)
     contact_number = db.Column(db.String(20))
