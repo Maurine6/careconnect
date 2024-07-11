@@ -7,7 +7,7 @@ from config import app,db,api
 from models import Admin, Patient
 
 
-from models import db,Patient
+from models import db,Patient,Service
 
 class Patient_creation(Resource):
     def post(self):
@@ -53,13 +53,22 @@ class check_username(Resource):
         if patient:
             return {"message":"Username already exists"},409
         else:
-            return {"message":"Username available"},200         
+            return {"message":"Username available"},200       
+class services_offered(Resource):
+    def get(self):
+        services = [service.to_dict() for service in Service.query.all()]
+        return make_response(services, 200)
+    def post(self,service_id):
+        service = Service.query.filter_by(id=service_id).first()
+        
+        
 
 
 api.add_resource(Patient_creation,'/patient', endpoint='patient')
 api.add_resource(checkSession,'/checkSession', endpoint='checkSession')
 api.add_resource(login,'/login', endpoint='login')
 api.add_resource(check_username,'/check_username', endpoint='check_username')
+api.add_resource(services_offered,'/services_offered', endpoint='services_offered')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 
