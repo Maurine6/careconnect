@@ -8,10 +8,6 @@ function App() {
   return (
   <div>
     <h1>Project Client</h1>
-    <SignUp/>
-    <br/><br/><br/><br/><br/><br/><br/>
-    <LogIn/>
-
   </div>
   );
 }
