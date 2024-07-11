@@ -63,6 +63,9 @@ class services_offered(Resource):
         service = Service.query.filter_by(id=service_id).first()
         patient = Patient.query.filter(Patient.id == data['patient_id']).first()
         if patient and service:
+            bill = Bill(
+                patient_id = data['patient_id']
+            )
             
             return make_response(bill_service.to_dict(), 201)
             

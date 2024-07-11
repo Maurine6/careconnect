@@ -128,8 +128,7 @@ class Bill(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-    bill_date = db.Column(db.DateTime )
-    amount = db.Column(db.Float, nullable=False)
+    bill_date = db.Column(db.DateTime)
     status = db.Column(db.String(20), default='Unpaid')
     
     patient = db.relationship('Patient', back_populates='bills')
@@ -157,8 +156,7 @@ class Service(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(500))
-    price = db.Column(db.Float, nullable=False)
-    
+    price = db.Column(db.Float,nullable=False)
     bill_services = db.relationship('BillService', back_populates='service')
     
     bills = association_proxy('bill_services', 'bill')
@@ -168,12 +166,13 @@ class Service(db.Model, SerializerMixin):
         if not value or not value.strip():
             raise ValueError("Service name cannot be empty")
         return value.strip()
-
+    
     @validates('price')
     def validate_price(self, key, value):
         if value <= 0:
             raise ValueError("Price must be greater than 0")
         return value
+
 
     def __repr__(self):
         return f"<Service {self.id}: {self.name}, Price: ${self.price}>"
