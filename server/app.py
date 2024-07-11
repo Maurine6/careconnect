@@ -4,7 +4,7 @@ from flask import Flask, make_response,jsonify,session,request
 from flask_restful import Resource
 
 from config import app,db,api
-from models import Admin, Patient
+from models import Admin, Patient,Bill,BillService
 
 
 from models import db,Patient,Service
@@ -23,7 +23,7 @@ class Patient_creation(Resource):
         patient.password_hash =data['password_hash']
         db.session.add(patient)
         db.session.commit()
-        session['password_hash']= patient.id
+        session['id']= patient.id
         return make_response(patient.to_dict(), 201)
     
 
@@ -59,7 +59,14 @@ class services_offered(Resource):
         services = [service.to_dict() for service in Service.query.all()]
         return make_response(services, 200)
     def post(self,service_id):
+        data = request.get_json()
         service = Service.query.filter_by(id=service_id).first()
+        patient = Patient.query.filter(Patient.id == data['patient_id']).first()
+        if patient and service:
+            
+            return make_response(bill_service.to_dict(), 201)
+            
+       
         
         
 
