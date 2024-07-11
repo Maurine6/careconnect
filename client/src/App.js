@@ -14,6 +14,9 @@ import StaffList from './components/Staff/StaffList';
 import StaffForm from './components/Staff/StaffForm';
 import SignUp from './components/Auth/SignUp';
 import LogIn from './components/Auth/LogIn';
+import AboutUs from './components/AboutUs'; 
+
+
 function App() {
   return (
     <Router>
@@ -34,6 +37,7 @@ function App() {
           <Route path="/staff/:id/edit" element={<StaffForm />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/about-us" element={<AboutUs />} />
           
         </Routes>
       </Layout>
