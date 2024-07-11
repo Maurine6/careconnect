@@ -3,16 +3,18 @@ import React, { useState } from "react";
 function LogIn() {
   const [formData, setFormData] = useState({
     username: "",
-    password: ""
+    password_hash: ""
   });
 
   const handleChange = (e) => {
+    console.log(e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(formData);
       const response = await fetch("/login", {
         method: "POST",
         headers: {
@@ -21,11 +23,10 @@ function LogIn() {
         body: JSON.stringify(formData)
       });
       const data = await response.json();
-      console.log(data);
       // Reset the form data to its initial state
       setFormData({
         username: "",
-        password: ""
+        password_hash: ""
       });
       // Handle success (e.g., storing tokens, redirecting)
     } catch (error) {
@@ -44,7 +45,7 @@ function LogIn() {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" placeholder="Enter your password" onChange={handleChange} name="password"/>
+          <input type="password" className="form-control" id="password" placeholder="Enter your password" onChange={handleChange} name="password_hash"/>
         </div>
         <button type="submit" className="btn btn-info">Log In</button>
       </form>
