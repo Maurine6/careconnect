@@ -20,6 +20,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(formData)
       const response = await fetch('/patient', {
         method: 'POST',
         headers: {
@@ -27,9 +28,6 @@ function SignUp() {
         },
         body: JSON.stringify(formData)
       });
-      const data = await response.json();
-      console.log(data);
-
       // Reset the form data to its initial state
       setFormData({
         username: '',
@@ -54,7 +52,7 @@ function SignUp() {
         <h1>Welcome to Careconnect.</h1>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">Username</label>
-          <input type="text" className="form-control" id="username" placeholder="Enter your user name" onChange={handleChange} name="username"/>
+          <input type="text" className="form-control"  placeholder="Enter your user name" onChange={handleChange} name="username"/>
         </div>
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">First name</label>
@@ -78,7 +76,7 @@ function SignUp() {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" placeholder="Enter your password" onChange={handleChange} name="password_hash"/>
+          <input type="password" className="form-control" placeholder="Enter your password" onChange={handleChange} name="password_hash"/>
         </div>
         <button type="submit" className="btn btn-info">Register</button>
       </form>
