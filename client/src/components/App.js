@@ -9,8 +9,8 @@ function App() {
   <div>
     <h1>Project Client</h1>
     <SignUp/>
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/>
-    <LogIn/>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    
 
   </div>
   );
