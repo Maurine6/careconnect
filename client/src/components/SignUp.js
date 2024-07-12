@@ -8,7 +8,7 @@ function SignUp() {
     date_of_birth: '',
     contact_number: '',
     email: '',
-    password_hash: ''
+    password: ''
   });
 
   const handleChange = (e) => {
@@ -76,7 +76,7 @@ function SignUp() {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" placeholder="Enter your password" onChange={handleChange} name="password_hash"/>
+          <input type="password" className="form-control" placeholder="Enter your password" onChange={handleChange} name="password"/>
         </div>
         <button type="submit" className="btn btn-info">Register</button>
       </form>
