@@ -154,7 +154,7 @@ class SinglePatientResource(Resource):
         return patient.to_dict(), 200
     
 class PatientByID(Resource):
-    @admin_required()
+    #@admin_required()
     def get(self, patient_id):
         patient = Patient.query.get_or_404(patient_id)
         
@@ -173,7 +173,7 @@ class PatientByID(Resource):
             return {'message': 'Patient not found'}, 404
 
 class AppointmentResource(Resource):
-    #@admin_or_patient_required()
+    @admin_or_patient_required()
     def post(self):
         claims = get_jwt_identity()
         data = request.get_json()
@@ -226,6 +226,13 @@ class SingleAppointmentResource(Resource):
         else:
             appointments = Appointment.query.filter_by(patient_id=claims['id']).all()
         return [appointment.to_dict() for appointment in appointments], 200
+    
+class AppointmentByID(Resource):
+    @admin_or_patient_required()
+    def get(self, appointment_id):
+        appointment = Appointment.query.get_or_404(appointment_id)
+        return appointment.to_dict(), 200
+
 
 class BillResource(Resource):
     #@admin_required()
@@ -383,7 +390,8 @@ api.add_resource(SinglePatientResource, '/patient/me', endpoint='patient_self')
 api.add_resource(PatientByID, '/patient/<int:patient_id>', endpoint='patient_by_id')
 api.add_resource(services_offered,'/services_offered/<int:patient_id>', endpoint='services_offered')
 api.add_resource(services_data,'/services_data', endpoint='services_data')
-api.add_resource(AppointmentResource, '/appointments', '/appointments/<int:appointment_id>')
+api.add_resource(AppointmentResource, '/appointments',)
+api.add_resource(AppointmentByID, '/appointments/<int:appointment_id>', endpoint='appointment_by_id')
 api.add_resource(SingleAppointmentResource, '/appointments/me', endpoint='appointments_self')
 api.add_resource(BillResource, '/bills')
 api.add_resource(SingleBillResource, '/bills/me', endpoint='bills_self')
