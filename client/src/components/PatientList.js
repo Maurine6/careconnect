@@ -1,12 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
-function Services() {
+function Patients() {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
-    fetch("/patient")
+    fetch("/patients")
       .then((r) => r.json())
       .then(setPatients);
   }, []);
@@ -29,9 +30,9 @@ function Services() {
             {patients.map((patient) => (
                 <div key={patient.id} className="card">
                     <h2>
-                        <Link to={`/patient/${patient.id}`}>{patient.first_name} {last_name}</Link>
+                        <Link to={`/patient/${patient.id}`}>{patient.first_name} {patient.last_name}</Link>
                     </h2>
-                    <p>Name: {patient.first_name} {last_name}</p>
+                    <p>Name: {patient.first_name} {patient.last_name}</p>
                     <button onClick={() => handleDelete(patient.id)}>Delete</button>
                 </div>
                 ))}
@@ -41,4 +42,4 @@ function Services() {
   );
 }
 
-export default Services;
+export default Patients;
