@@ -16,6 +16,14 @@ from config import app, db, api
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
+class checkSession(Resource):
+    def get(self):
+        id = session.get('id')
+        if id:
+            patient = Patient.query.filter_by(id=id).first()
+            return patient.to_dict(),200
+        else:
+            return {"message":"Session expired"},401
 
 
 if __name__ == '__main__':

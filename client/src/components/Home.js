@@ -1,9 +1,12 @@
 import React from 'react';
 import './Homepage.css';
+import Layout from './Layout';
 
 const Home = () => {
   return (
-    <div className="homepage">
+    <>   
+    <Layout />
+     <div className="homepage">
       <header className="hero-section">
         <h1>Welcome to Careconnect</h1>
         <p>Your comprehensive healthcare facility management system.</p>
@@ -30,6 +33,8 @@ const Home = () => {
         <p>&copy; 2024 Careconnect. All rights reserved.</p>
       </footer>
     </div>
+    </>
+
   );
 };
 
