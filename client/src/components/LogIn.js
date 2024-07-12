@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function LogIn() {
   const [formData, setFormData] = useState({
     username: "",
-    password_hash: ""
+    password: ""  // Changed from password_hash to password
   });
 
   const handleChange = (e) => {
@@ -22,15 +22,14 @@ function LogIn() {
         },
         body: JSON.stringify(formData)
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
-      // Reset the form data to its initial state
-      setFormData({
-        username: "",
-        password_hash: ""
-      });
+      console.log("Login successful:", data);
       // Handle success (e.g., storing tokens, redirecting)
     } catch (error) {
-      console.error(error.message);
+      console.error("Login failed:", error.message);
       // Handle errors
     }
   };
@@ -45,7 +44,7 @@ function LogIn() {
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" placeholder="Enter your password" onChange={handleChange} name="password_hash"/>
+          <input type="password" className="form-control" id="password" placeholder="Enter your password" onChange={handleChange} name="password"/> {/* Changed name to password */}
         </div>
         <button type="submit" className="btn btn-info">Log In</button>
       </form>

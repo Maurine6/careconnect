@@ -1,8 +1,8 @@
-"""Initial migration
+"""initial
 
-Revision ID: c72a09b6ed3a
+Revision ID: 062e1397f462
 Revises: 
-Create Date: 2024-07-10 22:05:10.112611
+Create Date: 2024-07-11 20:21:12.401944
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c72a09b6ed3a'
+revision = '062e1397f462'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,6 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=50), nullable=False),
     sa.Column('_password_hash', sa.String(), nullable=True),
+    sa.Column('role', sa.String(length=20), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('doctors',
@@ -35,11 +36,12 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('first_name', sa.String(length=50), nullable=False),
     sa.Column('last_name', sa.String(length=50), nullable=False),
-    sa.Column('usernaname', sa.String(length=50), nullable=False),
+    sa.Column('username', sa.String(length=50), nullable=True),
     sa.Column('_password_hash', sa.String(), nullable=True),
-    sa.Column('date_of_birth', sa.Date(), nullable=False),
+    sa.Column('date_of_birth', sa.Integer(), nullable=False),
     sa.Column('contact_number', sa.String(length=20), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=True),
+    sa.Column('role', sa.String(length=20), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('services',
@@ -56,8 +58,8 @@ def upgrade():
     sa.Column('appointment_date', sa.DateTime(), nullable=False),
     sa.Column('reason', sa.String(length=200), nullable=True),
     sa.Column('status', sa.String(length=20), nullable=True),
-    sa.ForeignKeyConstraint(['doctor_id'], ['doctors.id'], ),
-    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
+    sa.ForeignKeyConstraint(['doctor_id'], ['doctors.id'], name=op.f('fk_appointments_doctor_id_doctors')),
+    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], name=op.f('fk_appointments_patient_id_patients')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('bills',
@@ -66,7 +68,7 @@ def upgrade():
     sa.Column('bill_date', sa.DateTime(), nullable=True),
     sa.Column('amount', sa.Float(), nullable=False),
     sa.Column('status', sa.String(length=20), nullable=True),
-    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], ),
+    sa.ForeignKeyConstraint(['patient_id'], ['patients.id'], name=op.f('fk_bills_patient_id_patients')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('bill_services',
@@ -74,8 +76,8 @@ def upgrade():
     sa.Column('service_id', sa.Integer(), nullable=False),
     sa.Column('quantity', sa.Integer(), nullable=True),
     sa.Column('notes', sa.String(length=200), nullable=True),
-    sa.ForeignKeyConstraint(['bill_id'], ['bills.id'], ),
-    sa.ForeignKeyConstraint(['service_id'], ['services.id'], ),
+    sa.ForeignKeyConstraint(['bill_id'], ['bills.id'], name=op.f('fk_bill_services_bill_id_bills')),
+    sa.ForeignKeyConstraint(['service_id'], ['services.id'], name=op.f('fk_bill_services_service_id_services')),
     sa.PrimaryKeyConstraint('bill_id', 'service_id')
     )
     # ### end Alembic commands ###
