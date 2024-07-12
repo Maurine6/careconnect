@@ -62,15 +62,14 @@ def create_fake_appointments(patients, doctors):
         num_appointments = randint(1, 3)
         for _ in range(num_appointments):
             appointment = Appointment(
-                patient=patient,
-                doctor=rc(doctors),
+                patient_id=patient.id,
+                doctor_id=rc(doctors).id,
                 appointment_date=fake.future_datetime(end_date='+30d'),
                 reason=fake.sentence(),
                 status=rc(['Scheduled', 'Completed', 'Cancelled'])
             )
             appointments.append(appointment)
     return appointments
-
 def create_fake_bills(patients, services):
     bills = []
     for patient in patients:
@@ -79,6 +78,7 @@ def create_fake_bills(patients, services):
             bill = Bill(
                 patient=patient,
                 bill_date=fake.date_time_between(start_date='-30d', end_date='now'),
+                amount=0,  # Will be calculated based on services
                 status=rc(['Unpaid', 'Paid', 'Partially Paid'])
             )
             db.session.add(bill)
@@ -96,6 +96,8 @@ def create_fake_bills(patients, services):
                         quantity=randint(1, 3)
                     )
                     db.session.add(bill_service)
+                    bill.amount += bill_service.service.price * bill_service.quantity
+
             db.session.commit()
             bills.append(bill)
     return bills
@@ -125,7 +127,8 @@ if __name__ == '__main__':
         appointments = create_fake_appointments(patients, doctors)
         bills = create_fake_bills(patients, services)
 
-        db.session.add_all(appointments + bills)
+        db.session.add_all(appointments)
+        db.session.add_all(bills)
         db.session.commit()
 
         print("Seed completed successfully!")
