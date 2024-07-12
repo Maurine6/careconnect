@@ -2,6 +2,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+from sqlalchemy import func
 
 from config import db, bcrypt
 from datetime import datetime
@@ -128,9 +129,9 @@ class Bill(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-    bill_date = db.Column(db.DateTime)
+    bill_date = db.Column(db.DateTime, default=func.now())
     status = db.Column(db.String(20), default='Unpaid')
-    
+
     patient = db.relationship('Patient', back_populates='bills')
     bill_services = db.relationship('BillService', back_populates='bill', cascade='all, delete-orphan')
     
@@ -185,7 +186,7 @@ class BillService(db.Model, SerializerMixin):
     bill_id = db.Column(db.Integer, db.ForeignKey('bills.id'), primary_key=True)
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'), primary_key=True)
     quantity = db.Column(db.Integer, default=1)
-    notes = db.Column(db.String(200))  
+    notes = db.Column(db.String(200))
     
     bill = db.relationship('Bill', back_populates='bill_services')
     service = db.relationship('Service', back_populates='bill_services')

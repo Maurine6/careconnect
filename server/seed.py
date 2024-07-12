@@ -79,7 +79,6 @@ def create_fake_bills(patients, services):
             bill = Bill(
                 patient=patient,
                 bill_date=fake.date_time_between(start_date='-30d', end_date='now'),
-                amount=0,  # Will be calculated based on services
                 status=rc(['Unpaid', 'Paid', 'Partially Paid'])
             )
             db.session.add(bill)
@@ -97,8 +96,6 @@ def create_fake_bills(patients, services):
                         quantity=randint(1, 3)
                     )
                     db.session.add(bill_service)
-                    bill.amount += bill_service.service.price * bill_service.quantity
-
             db.session.commit()
             bills.append(bill)
     return bills
