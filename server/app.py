@@ -11,7 +11,7 @@ from config import app,db,api
 from models import Admin, Patient
 
 
-from models import db,Patient, Appointment,Service, Bill, BillService
+from models import db,Patient, Appointment,Service, Bill, BillService, Doctor
 
 
 def admin_required():
@@ -59,7 +59,7 @@ class Login(Resource):
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
-# Create the appointment
+
         if not username or not password:
             return {'message': 'Username and password are required'}, 400
 
@@ -90,7 +90,7 @@ class Login(Resource):
             return {'message': 'User not found'}, 404
 
 class PatientResource(Resource):
-    @admin_required()
+    #@admin_required()
     def get(self):
         patients = Patient.query.all()
         return [patient.to_dict() for patient in patients], 200
@@ -148,6 +148,29 @@ class SinglePatientResource(Resource):
             }, 200
         else:
             return {'message': 'Patient not found'}, 404
+        
+    def get_by_id(self, patient_id):
+        patient = Patient.query.get_or_404(patient_id)
+        return patient.to_dict(), 200
+    
+class PatientByID(Resource):
+    #@admin_required()
+    def get(self, patient_id):
+        patient = Patient.query.get_or_404(patient_id)
+        
+        if patient:
+            return {
+                'id': patient.id,
+                'first_name': patient.first_name,
+                'last_name': patient.last_name,
+                'username': patient.username,
+                'date_of_birth': patient.date_of_birth,
+                'contact_number': patient.contact_number,
+                'email': patient.email,
+                'role': patient.role
+            }, 200
+        else:
+            return {'message': 'Patient not found'}, 404
 
 class AppointmentResource(Resource):
     @admin_or_patient_required()
@@ -169,12 +192,13 @@ class AppointmentResource(Resource):
         db.session.add(appointment)
         db.session.commit()
         return appointment.to_dict(), 201
-    @admin_required()
+    
+    #@admin_required()
     def get(self):
         appointments = Appointment.query.all()
         return [appointment.to_dict() for appointment in appointments], 200
 
-    @admin_required()
+    #@admin_required()
     def patch(self, appointment_id):
         appointment = Appointment.query.get_or_404(appointment_id)
         data = request.get_json()
@@ -185,7 +209,7 @@ class AppointmentResource(Resource):
         db.session.commit()
         return appointment.to_dict(), 200
 
-    @admin_required()
+    #@admin_required()
     def delete(self, appointment_id):
         appointment = Appointment.query.get_or_404(appointment_id)
         db.session.delete(appointment)
@@ -202,14 +226,21 @@ class SingleAppointmentResource(Resource):
         else:
             appointments = Appointment.query.filter_by(patient_id=claims['id']).all()
         return [appointment.to_dict() for appointment in appointments], 200
+    
+class AppointmentByID(Resource):
+    @admin_or_patient_required()
+    def get(self, appointment_id):
+        appointment = Appointment.query.get_or_404(appointment_id)
+        return appointment.to_dict(), 200
+
 
 class BillResource(Resource):
-    @admin_required()
+    #@admin_required()
     def get(self):
         bills = Bill.query.all()
         return [bill.to_dict() for bill in bills], 200
 
-    @admin_required()
+    #@admin_required()
     def post(self):
         data = request.get_json()
         new_bill = Bill(**data)
@@ -218,7 +249,7 @@ class BillResource(Resource):
         return new_bill.to_dict(), 201
     
 class SingleBillResource(Resource):
-    @admin_or_patient_required()# Create the appointment
+    @admin_or_patient_required()
     def get(self):
         claims = get_jwt_identity()
         if claims['role'] == 'admin':
@@ -271,12 +302,12 @@ class services_offered(Resource):
         else:
             return {"message":"Invalid bill"},404
 class services_data(Resource):
-    @admin_or_patient_required()
+    #@admin_or_patient_required()
     def get(self):
         services = [service.to_dict() for service in Service.query.all()]
         return make_response(services, 200)
     
-    @admin_required()
+    #@admin_required()
     def post(self):
         data = request.get_json()
         service = Service(
@@ -288,7 +319,7 @@ class services_data(Resource):
         db.session.commit()
         return make_response(service.to_dict(), 201)
     
-    @admin_required()
+    #@admin_required()
     def patch(self, service_id):
         data = request.get_json()
         service = Service.query.filter_by(id=service_id).first()
@@ -301,7 +332,7 @@ class services_data(Resource):
         else:
             return {"message":"Invalid service"},404
         
-    @admin_required()
+    #@admin_required()
     def delete(self, service_id):
         service = Service.query.filter_by(id=service_id).first()
         if service:
@@ -310,17 +341,61 @@ class services_data(Resource):
             return {"message":"Service deleted"},200
         else:
             return {"message":"Invalid service"},404
+        
+class DoctorResource(Resource):
+    def get(self):
+        doctors = Doctor.query.all()
+        return [doctor.to_dict() for doctor in doctors], 200
+
+    def post(self):
+        data = request.get_json()
+        try:
+            new_doctor = Doctor(
+                first_name=data.get('first_name'),
+                last_name=data.get('last_name'),
+                specialization=data.get('specialization')
+            )
+            db.session.add(new_doctor)
+            db.session.commit()
+            return new_doctor.to_dict(), 201
+        except Exception as e:
+            db.session.rollback()
+            return {'message': 'An error occurred while creating the doctor'}, 500
+
+class SingleDoctorResource(Resource):
+    def get(self, doctor_id):
+        doctor = Doctor.query.get_or_404(doctor_id)
+        return doctor.to_dict(), 200
+
+    def patch(self, doctor_id):
+        doctor = Doctor.query.get_or_404(doctor_id)
+        data = request.get_json()
+        
+        for key, value in data.items():
+            setattr(doctor, key, value)
+        
+        db.session.commit()
+        return doctor.to_dict(), 200
+
+    def delete(self, doctor_id):
+        doctor = Doctor.query.get_or_404(doctor_id)
+        db.session.delete(doctor)
+        db.session.commit()
+        return '', 204
 
 # Routes
 api.add_resource(Login, '/login')
 api.add_resource(PatientResource, '/patients', '/patient')
 api.add_resource(SinglePatientResource, '/patient/me', endpoint='patient_self')
+api.add_resource(PatientByID, '/patient/<int:patient_id>', endpoint='patient_by_id')
 api.add_resource(services_offered,'/services_offered/<int:patient_id>', endpoint='services_offered')
 api.add_resource(services_data,'/services_data', endpoint='services_data')
-api.add_resource(AppointmentResource, '/appointments', '/appointments/<int:appointment_id>')
+api.add_resource(AppointmentResource, '/appointments',)
+api.add_resource(AppointmentByID, '/appointments/<int:appointment_id>', endpoint='appointment_by_id')
 api.add_resource(SingleAppointmentResource, '/appointments/me', endpoint='appointments_self')
 api.add_resource(BillResource, '/bills')
 api.add_resource(SingleBillResource, '/bills/me', endpoint='bills_self')
+api.add_resource(DoctorResource, '/doctors')
+api.add_resource(SingleDoctorResource, '/doctors/<int:doctor_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
-
