@@ -7,7 +7,7 @@ function Layout({ children }) {
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/services">Services</Link></li>
+          <li><Link to="/services_offered">Services</Link></li>
           <li><Link to="/patients">Patients</Link></li>
           <li><Link to="/appointments">Appointments</Link></li>
           <li><Link to="/staff">Staff</Link></li>
