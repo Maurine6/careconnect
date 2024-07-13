@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function LogIn() {
+function LogIn({setLoggedIn}) {
   const [formData, setFormData] = useState({
     username: "",
     password: ""  // Changed from password_hash to password
