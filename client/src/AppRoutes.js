@@ -59,7 +59,7 @@ const AppRoutes = () => {
            setLoggedIn={setLoggedIn}
           />
         ))}
-        <Route path='/login' element={LogIn}/>
+        <Route path='/login' element={<LogIn setLoggedIn={setLoggedIn}/>}/>
       </Routes>
     </Router>
   );

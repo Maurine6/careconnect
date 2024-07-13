@@ -8,10 +8,6 @@ from datetime import datetime, timedelta
 
 
 # Views go here!
-
-@app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
 class checkSession(Resource):
     def get(self):
         id = session.get('id')
