@@ -1,18 +1,22 @@
-// routes.js
+// src/App.js
+
 import React from 'react';
-import Login from './components/LogIn';
-import SignUp from './components/SignUp'// Ensure this component exists
+import Home from './components/Home';
+import ServiceList from './components/Services/ServiceList';
+import SignUp from './components/Auth/SignUp';
+import AboutUs from './components/AboutUs'; 
+import AppointmentForm from './components/Appointments/AppointmentForm';
+import LogIn from './components/Auth/LogIn';
+
 
 const publicRoutes = [
-  { path: '/', element: <SignUp /> },
-  { path: '/login', element: <Login /> },
-  { path: '/signup', element: <SignUp /> }
-];
+    {path:'/', element:<Home />},
+    {path:'/services_offered',element:<ServiceList/>},
+    { path: '/login', element: <LogIn /> },
+    { path: '/appointments/new', element: <AppointmentForm /> },
+    { path: '/about-us', element: <AboutUs />},
+    { path: '*', element: <div>Page not found</div> },
+    { path:'/signup',element: <SignUp />},
+  ];
+  export { publicRoutes };
 
-const privateRoutes = [  
-    { path: '/', element: <SignUp /> },
-    { path: '/login', element: <Login /> },
-    { path: '/signup', element: <SignUp /> }
-];
-
-export { publicRoutes, privateRoutes };
