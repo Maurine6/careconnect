@@ -1,8 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Homepage.css';
 import Layout from './Layout';
 
 const Home = () => {
+  let Navigate  = useNavigate()
+  const routeChange = ()=>{
+    Navigate('/login')
+  }
   return (
     <>   
     <Layout />
@@ -10,7 +15,7 @@ const Home = () => {
       <header className="hero-section">
         <h1>Welcome to Careconnect</h1>
         <p>Your comprehensive healthcare facility management system.</p>
-        <button className="cta-button">Get Started</button>
+        <button className="cta-button" onClick={routeChange}>Get Started</button>
       </header>
       <section className="features-section">
         <div className="feature">
