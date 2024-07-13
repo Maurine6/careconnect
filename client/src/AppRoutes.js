@@ -12,6 +12,7 @@ import Home from './components/PublicRoutes/Home';
 import ServiceList from './components/PrivateRoutes/ServiceList';
 import SignUp from './components/PublicRoutes/SignUp';
 import AboutUs from './components/PublicRoutes/AboutUs'; 
+import Patient_home_Component from './components/PrivateRoutes/patient_data';
 
 
 const AppRoutes = () => {
@@ -23,11 +24,10 @@ const AppRoutes = () => {
       setLoggedIn(true);
       console.log(token);
     }
-  }, []);
+  }, [loggedIn]);
   const publicRoutes = [
     {path:'/', element:<Home />},
     {path:'/services_offered',element:<ServiceList/>},
-    { path: '/login', element: <LogIn /> },
     { path: '/appointments/new', element: <AppointmentForm /> },
     { path: '/about-us', element: <AboutUs />},
     { path: '*', element: <div>Page not found</div> },
@@ -40,15 +40,16 @@ const AppRoutes = () => {
     ));
     const PrivateRoute = ({ element: Component}) => (
       loggedIn ? (
-        <Component setLoggedIn={setLoggedIn} />
+        <Component />
       ) : (
-        <Navigate to="/login" />
+        <Navigate to="/" />
       )
     )
   
 
     const privateRoutes = [
       { path: '/services/new', element: <ServiceForm /> },
+      { path:'/my_data',  element:<Patient_home_Component />},
       { path: '/services/:id/edit', element: <ServiceForm /> },
       { path: '/patients/new', element: <PatientForm /> },
       { path: '/patients/:id/edit', element: <PatientForm /> },
@@ -68,8 +69,6 @@ const AppRoutes = () => {
            key={index}
            path={route.path}
            element={PrivateRoute(route.element)}
-           loggedIn={loggedIn}
-           setLoggedIn={setLoggedIn}
           />
         ))}
         <Route path='/login' element={<LogIn setLoggedIn={setLoggedIn}/>}/>
