@@ -15,7 +15,9 @@ def create_fake_patients(num_patients):
     patients = []
     for _ in range(num_patients):
         patient = Patient(
-            usernaname=fake.user_name(),
+            first_name=fake.first_name(),
+            last_name=fake.last_name(), 
+            username=fake.user_name(),
             date_of_birth=fake.date_of_birth(minimum_age=18, maximum_age=90),
             contact_number=f"+254{fake.msisdn()[4:]}",  # Kenyan format
             email=fake.email()
@@ -60,15 +62,14 @@ def create_fake_appointments(patients, doctors):
         num_appointments = randint(1, 3)
         for _ in range(num_appointments):
             appointment = Appointment(
-                patient=patient,
-                doctor=rc(doctors),
+                patient_id=patient.id,
+                doctor_id=rc(doctors).id,
                 appointment_date=fake.future_datetime(end_date='+30d'),
                 reason=fake.sentence(),
                 status=rc(['Scheduled', 'Completed', 'Cancelled'])
             )
             appointments.append(appointment)
     return appointments
-
 def create_fake_bills(patients, services):
     bills = []
     for patient in patients:
@@ -116,17 +117,18 @@ if __name__ == '__main__':
         db.session.add(admin)
 
         # Create fake data
-        patients = create_fake_patients(50)
+        patients = create_fake_patients(10)
         doctors = create_fake_doctors(10)
         services = create_fake_services(20)
         
-        db.session.add_all(patients + doctors + services)
+        db.session.add_all(patients+doctors+services)
         db.session.commit()
 
         appointments = create_fake_appointments(patients, doctors)
         bills = create_fake_bills(patients, services)
 
-        db.session.add_all(appointments + bills)
+        db.session.add_all(appointments)
+        db.session.add_all(bills)
         db.session.commit()
 
         print("Seed completed successfully!")

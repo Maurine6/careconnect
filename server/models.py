@@ -2,10 +2,11 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+
+from config import db, bcrypt
 from datetime import datetime
 import re
 
-from config import db, bcrypt
 
 class Patient(db.Model, SerializerMixin):
     __tablename__ = 'patients'
@@ -13,11 +14,14 @@ class Patient(db.Model, SerializerMixin):
     serialize_rules = ('-appointments.patient', '-bills.patient')
 
     id = db.Column(db.Integer, primary_key=True)
-    usernaname = db.Column(db.String(50), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(50))
     _password_hash = db.Column(db.String)
-    date_of_birth = db.Column(db.Date, nullable=False)
+    date_of_birth = db.Column(db.Integer, nullable=False)
     contact_number = db.Column(db.String(20))
     email = db.Column(db.String(120))
+    role = db.Column(db.String(20), default='patient')
     
     appointments = db.relationship('Appointment', back_populates='patient')
     bills = db.relationship('Bill', back_populates='patient')
@@ -35,8 +39,10 @@ class Patient(db.Model, SerializerMixin):
         self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):
-        return bcrypt.check_password_hash(
-            self._password_hash, password.encode('utf-8'))
+    # Ensure _password_hash is a bytes object (if retrieved from database)
+        if isinstance(self._password_hash, str):
+            self._password_hash = self._password_hash.encode('utf-8')
+        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
     @validates('first_name', 'last_name')
     def validate_name(self, key, value):
@@ -102,11 +108,11 @@ class Appointment(db.Model, SerializerMixin):
     patient = db.relationship('Patient', back_populates='appointments')
     doctor = db.relationship('Doctor', back_populates='appointments')
 
-    @validates('appointment_date')
-    def validate_appointment_date(self, key, value):
-        if value <= datetime.now():
-            raise ValueError("Appointment date must be in the future")
-        return value
+    from datetime import datetime
+
+    # Inside your Appointment class
+    
+
 
     @validates('status')
     def validate_status(self, key, value):
@@ -204,6 +210,7 @@ class Admin(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, default='admincareconnect')
     _password_hash = db.Column(db.String, default='admincareconnect')
+    role = db.Column(db.String(20), default='admin')
 
     @hybrid_property
     def password_hash(self):
@@ -216,8 +223,9 @@ class Admin(db.Model, SerializerMixin):
         self._password_hash = password_hash.decode('utf-8')
 
     def authenticate(self, password):
-        return bcrypt.check_password_hash(
-            self._password_hash, password.encode('utf-8'))
+        if self._password_hash is None:
+            return False
+        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
     def __repr__(self):
         return f"<Admin {self.id}: {self.username}>"
