@@ -1,20 +1,40 @@
-//newappointment
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const NewAppointment = () => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(null);
+  const [doctors, setDoctors] = useState([]);
   const [appointmentData, setAppointmentData] = useState({
     reason: "",
     appointment_date: "",
-    doctor_id: 0,
+    doctor_id: "",
     status: "Scheduled",
   });
 
   useEffect(() => {
     const storedToken = localStorage.getItem('accessToken');
     setAccessToken(storedToken);
+
+    // Fetch doctors
+    const fetchDoctors = async () => {
+      try {
+        const response = await fetch('/doctors', {
+          headers: {
+            'Authorization': `Bearer ${storedToken}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch doctors');
+        }
+        const data = await response.json();
+        setDoctors(data);
+      } catch (error) {
+        console.error('Error fetching doctors:', error);
+      }
+    };
+
+    fetchDoctors();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -96,14 +116,20 @@ const NewAppointment = () => {
           />
         </div>
         <div>
-          <label htmlFor="doctor_id">Doctor ID:</label>
-          <input
-            type="number"
+          <label htmlFor="doctor_id">Doctor:</label>
+          <select
             id="doctor_id"
             name="doctor_id"
             value={appointmentData.doctor_id}
             onChange={handleChange}
-          />
+          >
+            <option value="">Select a doctor</option>
+            {doctors.map((doctor) => (
+              <option key={doctor.id} value={doctor.id}>
+                {`${doctor.first_name} ${doctor.last_name} - ${doctor.specialization}`}
+              </option>
+            ))}
+          </select>
         </div>
         <button type="submit">Create Appointment</button>
       </form>
