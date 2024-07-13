@@ -19,12 +19,26 @@ const AppRoutes = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      setLoggedIn(true);
-      console.log(token);
+    checkSession();
+}, []);
+
+  const checkSession = async () => {
+    const response = await fetch('/check_session', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+    });
+
+    if (response.ok) {
+        const user = await response.json();
+        setLoggedIn(true);
+      } else {
+        localStorage.removeItem('access_token');
+        setLoggedIn(false);
+  
     }
-  }, [loggedIn]);
+};
   const publicRoutes = [
     {path:'/', element:<Home />},
     {path:'/services_offered',element:<ServiceList/>},
@@ -37,15 +51,7 @@ const AppRoutes = () => {
   const renderPublicRoutes = (routes) =>
     routes.map((route, index) => (
       <Route key={index} path={route.path} element={route.element} />
-    ));
-    const PrivateRoute = ({ element: Component}) => (
-      loggedIn ? (
-        <Component />
-      ) : (
-        <Navigate to="/" />
-      )
-    )
-  
+    )); 
 
     const privateRoutes = [
       { path: '/services/new', element: <ServiceForm /> },
@@ -62,18 +68,59 @@ const AppRoutes = () => {
     ];
   return (
     <Router>
-      <Routes>
+     <Routes>
         {renderPublicRoutes(publicRoutes)}
-        {privateRoutes.map((route,index)=>(
-          <Route
-           key={index}
-           path={route.path}
-           element={PrivateRoute(route.element)}
-          />
-        ))}
-        <Route path='/login' element={<LogIn setLoggedIn={setLoggedIn}/>}/>
-      </Routes>
-    </Router>
+  <Route path='/login' element={<LogIn setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}/>
+  <Route
+    path="/services/new"
+    element={
+      loggedIn ? <ServiceForm /> : <ServiceForm />
+    }
+  />
+  <Route
+    path="/my_data"
+    element= {<Patient_home_Component /> }
+  />
+  <Route
+    path="/services/:id/edit"
+    element={
+      loggedIn ? <ServiceForm /> : <Navigate to="/" replace />
+    }
+  />
+  <Route
+    path="/patients/new"
+    element={loggedIn ? <PatientForm /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path="/patients/:id/edit"
+    element={loggedIn ? <PatientForm /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path="/appointments"
+    element={loggedIn ? <AppointmentList /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path="/appointments/new"
+    element={loggedIn ? <AppointmentForm /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path="/appointments/:id/edit"
+    element={loggedIn ? <AppointmentForm /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path="/staff/new"
+    element={loggedIn ? <StaffForm /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path="/staff/:id/edit"
+    element={loggedIn ? <StaffForm /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path="*"
+    element={<div>Page not found</div>}
+  />
+ </Routes>
+</Router>
   );
 };
 

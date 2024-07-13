@@ -3,17 +3,32 @@ import { Link } from 'react-router-dom';
 
 function Navbar({ children }) {
   return (
-    <div>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/services_offered">services offered</Link></li>
-          <li><Link to="/login">Login</Link></li> 
-          <li><Link to="/signup">Signup</Link></li>
-          <li><Link to="/about-us">About Us</Link></li> 
-        </ul>
-      </nav>
+<nav class="navbar navbar-expand-sm bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="/">Careconnect</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto"> <li class="nav-item">
+          <Link to="/" class="nav-link active">Home</Link> </li>
+        <li class="nav-item">
+          <Link to="/services_offered" class="nav-link">Services Offered</Link>
+        </li>
+        <li class="nav-item">
+          <Link to="/login" class="nav-link">Login</Link>
+        </li>
+        <li class="nav-item">
+          <Link to="/signup" class="nav-link">Signup</Link>
+        </li>
+        <li class="nav-item">
+          <Link to="/about-us" class="nav-link">About Us</Link>
+        </li>
+      </ul>
     </div>
+  </div>
+</nav>
+
   );
 }
 

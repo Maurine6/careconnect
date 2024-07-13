@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function LogIn({setLoggedIn}) {
+function LogIn({setLoggedIn, loggedIn}) {
+  const Navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: "",
-    password: ""  // Changed from password_hash to password
+    password: ""  
   });
 
   const handleChange = (e) => {
@@ -25,13 +27,20 @@ function LogIn({setLoggedIn}) {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('access_token', data.access_token);
-        setLoggedIn(true);  
+        setLoggedIn(true)
+        console.log(loggedIn)
+        Navigate('/my_data')
+      } else{
+        console.log(loggedIn)
+        console.error("Login failed:", response.statusText);
       }
     }
     catch (error) {
+      console.log(loggedIn)
       console.error("Login failed:", error.message);
       // Handle errors
     }
+    console.log(loggedIn )
   };
 
   return (
