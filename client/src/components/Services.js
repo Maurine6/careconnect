@@ -1,18 +1,19 @@
+//services
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AddNewService from "./NewService";
+
 
 function Services() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    fetch("/services_offered")
+    fetch("/services_data")
       .then((r) => r.json())
       .then(setServices);
   }, []);
 
   function handleDelete(id) {
-    fetch(`/services_offered/${id}`, {
+    fetch(`/service_data/${id}`, {
       method: "DELETE",
     }).then((r) => {
       if (r.ok) {
@@ -25,7 +26,6 @@ function Services() {
 
   return (
     <div>
-    <AddNewService/>
     <section className="container">
       {services.map((service) => (
         <div key={service.id} className="card">

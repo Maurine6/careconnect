@@ -1,3 +1,4 @@
+#models
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
@@ -155,7 +156,7 @@ class Bill(db.Model, SerializerMixin):
 class Service(db.Model, SerializerMixin):
     __tablename__ = 'services'
 
-    serialize_rules = ('-bill_services.service',)
+    serialize_rules = ('-bill_services',)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)

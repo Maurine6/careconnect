@@ -1,9 +1,10 @@
+//patientlist
 import React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
-function Patients() {
+function PatientList() {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
@@ -42,4 +43,4 @@ function Patients() {
   );
 }
 
-export default Patients;
+export default PatientList;

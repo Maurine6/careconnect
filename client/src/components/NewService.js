@@ -1,20 +1,26 @@
+//newservice
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AddNewService() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
+    // Convert price to a float
+    const priceFloat = parseFloat(price);
+  
     const serviceData = {
       name: name,
       description: description, 
-      price:price,
+      price: priceFloat, // Use the converted float value
     };
-
-    fetch('/', {
+  
+    fetch('/services_data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,10 +30,10 @@ function AddNewService() {
     .then(response => response.json())
     .then(data => {
       console.log('Service added:', data);
+      navigate('/services_offered')
     })
     .catch(error => {
       console.error('Error adding service:', error);
-      
     });
   };
 
