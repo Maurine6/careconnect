@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { publicRoutes } from './routes';
-import LogIn from './components/Auth/LogIn';
-import ServiceForm from './components/Services/ServiceForm';
-import PatientList from './components/Patients/PatientList';
-import PatientForm from './components/Patients/PatientForm';
-import AppointmentList from './components/Appointments/AppointmentList';
-import AppointmentForm from './components/Appointments/AppointmentForm';
-import StaffList from './components/Staff/StaffList';
-import StaffForm from './components/Staff/StaffForm';
+import LogIn from './components/PublicRoutes/LogIn';
+import ServiceForm from './components/PrivateRoutes/ServiceForm';
+import PatientList from './components/PrivateRoutes/PatientList';
+import PatientForm from './components/PrivateRoutes/PatientForm';
+import AppointmentList from './components/PrivateRoutes/AppointmentList';
+import AppointmentForm from './components/PrivateRoutes/AppointmentForm';
+import StaffList from './components/PrivateRoutes/StaffList';
+import StaffForm from './components/PrivateRoutes/StaffForm';
+import Home from './components/PublicRoutes/Home';
+import ServiceList from './components/PrivateRoutes/ServiceList';
+import SignUp from './components/PublicRoutes/SignUp';
+import AboutUs from './components/PublicRoutes/AboutUs'; 
+
 
 const AppRoutes = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -20,6 +24,15 @@ const AppRoutes = () => {
       console.log(token);
     }
   }, []);
+  const publicRoutes = [
+    {path:'/', element:<Home />},
+    {path:'/services_offered',element:<ServiceList/>},
+    { path: '/login', element: <LogIn /> },
+    { path: '/appointments/new', element: <AppointmentForm /> },
+    { path: '/about-us', element: <AboutUs />},
+    { path: '*', element: <div>Page not found</div> },
+    { path:'/signup',element: <SignUp />},
+  ];
 
   const renderPublicRoutes = (routes) =>
     routes.map((route, index) => (
