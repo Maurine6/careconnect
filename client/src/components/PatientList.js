@@ -14,7 +14,7 @@ function PatientList() {
   }, []);
 
   function handleDelete(id) {
-    fetch(`/patient/${id}`, {
+    fetch(`/patient/<int:patient_id>`, {
       method: "DELETE",
     }).then((r) => {
       if (r.ok) {
@@ -27,6 +27,17 @@ function PatientList() {
 
   return (
     <div>
+    <h1 style={{ textAlign: 'center', color: 'darkblue' }}>Our Patients Corner</h1> 
+      <div className="feature">
+          <img src="/hospital.jpg" alt="Efficient Management" className="feature-image" />
+          <h3>Efficient Management</h3>
+          <p>Streamline operations and improve efficiency with our tools.</p>
+        </div>
+        <div className="bg">
+          <img src="/pexels-fr3nks-305568.jpg" alt="Efficient Management" className="bg-image" />
+          <h3>Efficient Management</h3>
+          <p>Streamline operations and improve efficiency with our tools.</p>
+        </div>
         <section className="container">
             {patients.map((patient) => (
                 <div key={patient.id} className="card">

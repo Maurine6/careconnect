@@ -23,7 +23,7 @@ function Services() {
   }
 
   return (
-    <div>
+    <div className="services">
     <section className="container">
       {services.map((service) => (
         <div key={service.id} className="card">

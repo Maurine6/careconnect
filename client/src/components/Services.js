@@ -1,10 +1,8 @@
-//services
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
 
 function Services() {
   const [services, setServices] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
 
   useEffect(() => {
     fetch("/services_data")
@@ -15,32 +13,49 @@ function Services() {
   function handleDelete(id) {
     fetch(`/service_data/${id}`, {
       method: "DELETE",
-    }).then((r) => {
+    })
+    .then((r) => {
       if (r.ok) {
-        setServices((services) =>
-          services.filter((service) => service.id !== id)
-        );
+        setServices(services.filter((service) => service.id !== id));
       }
-    });
+    })
+    .catch((error) => console.error("Error deleting service:", error));
+  }
+
+  function toggleServiceDetails(service) {
+    setSelectedService(service.id === selectedService ? null : service);
   }
 
   return (
     <div>
-    <section className="container">
-      {services.map((service) => (
-        <div key={service.id} className="card">
-          <h2>
-            <Link to={`/services_offered/${service.id}`}>{service.name}</Link>
-          </h2>
-          <p>Name: {service.name}</p>
-          <p>Description: {service.description}</p>
-          <p>Price: {service.price}</p>
-          <button onClick={() => handleDelete(service.id)}>Delete</button>
+      <h1 style={{ textAlign: 'center', color: 'darkblue' }}>Our services</h1>
+      <div className="feature">
+          <img src="/hospital.jpg" alt="Efficient Management" className="feature-image" />
+          <h3>Efficient Management</h3>
+          <p>Streamline operations and improve efficiency with our tools.</p>
         </div>
-      ))}
-    </section>
-  </div>
-  
+        <div className="bg">
+          <img src="/pexels-fr3nks-305568.jpg" alt="Efficient Management" className="bg-image" />
+          <h3>Efficient Management</h3>
+          <p>Streamline operations and improve efficiency with our tools.</p>
+        </div>
+      <section className="container">
+        {services.map((service) => (
+          <div key={service.id} className="card" onClick={() => toggleServiceDetails(service)}>
+            <h2>{service.name}</h2>
+          </div>
+        ))}
+      </section>
+      {selectedService && (
+        <div className="details-container">
+          <h3>{selectedService.name}</h3>
+          <p>Description: {selectedService.description}</p>
+          <p>Price: {selectedService.price}</p>
+          <button onClick={() => handleDelete(selectedService)}>Delete</button>
+        </div>
+)}
+
+    </div>
   );
 }
 

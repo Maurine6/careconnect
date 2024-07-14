@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LogIn from './components/PublicRoutes/LogIn';
 import ServiceForm from './components/PrivateRoutes/ServiceForm';
-import PatientList from './components/PrivateRoutes/PatientList';
-import PatientForm from './components/PrivateRoutes/PatientForm';
+//import PatientList from './components/PrivateRoutes/PatientList';
+import PatientList from './components/PatientList';
 import AppointmentList from './components/PrivateRoutes/AppointmentList';
 import AppointmentForm from './components/PrivateRoutes/AppointmentForm';
 import StaffList from './components/PrivateRoutes/StaffList';
 import StaffForm from './components/PrivateRoutes/StaffForm';
 import Home from './components/PublicRoutes/Home';
 import ServiceList from './components/PrivateRoutes/ServiceList';
+import Services from './components/Services';
 import SignUp from './components/PublicRoutes/SignUp';
 import AboutUs from './components/PublicRoutes/AboutUs'; 
 import Patient_home_Component from './components/PrivateRoutes/patient_data';
@@ -50,7 +51,7 @@ const AppRoutes = () => {
   }, []);;
   const publicRoutes = [
     {path:'/', element:<Home />},
-    {path:'/services_offered',element:<ServiceList/>},
+    {path:'/services_offered',element:<Services/>},
     { path: '/appointments/new', element: <AppointmentForm /> },
     { path: '/about-us', element: <AboutUs />},
     { path: '*', element: <div>Page not found</div> },
@@ -66,8 +67,6 @@ const AppRoutes = () => {
       { path: '/services/new', element: <ServiceForm /> },
       { path:'/my_data',  element:<Patient_home_Component />},
       { path: '/services/:id/edit', element: <ServiceForm /> },
-      { path: '/patients/new', element: <PatientForm /> },
-      { path: '/patients/:id/edit', element: <PatientForm /> },
       { path: '/appointments', element: <AppointmentList /> },
       { path: '/appointments/new', element: <AppointmentForm /> },
       { path: '/appointments/:id/edit', element: <AppointmentForm /> },
@@ -95,14 +94,6 @@ const AppRoutes = () => {
     element={
       loggedIn ? <ServiceForm /> : <Navigate to="/"  />
     }
-  />
-  <Route
-    path="/patients/new"
-    element={loggedIn ? <PatientForm /> : <Navigate to="/"  />}
-  />
-  <Route
-    path="/patients/:id/edit"
-    element={loggedIn ? <PatientForm /> : <Navigate to="/" replace />}
   />
   <Route
     path="/appointments"
