@@ -2,11 +2,13 @@
 #!/usr/bin/env python3
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask import Flask, make_response,jsonify,session,request, current_app
-from flask_restful import Resource
+from flask_restful import Resource, Api
 from functools import wraps
 import bcrypt
 from datetime import datetime, timedelta
 
+app = Flask(__name__)
+api = Api(app)
 
 # Views go here!
 class checkSession(Resource):
