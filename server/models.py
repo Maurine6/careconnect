@@ -24,8 +24,8 @@ class Patient(db.Model, SerializerMixin):
     email = db.Column(db.String(120))
     role = db.Column(db.String(20), default='patient')
     
-    appointments = db.relationship('Appointment', back_populates='patient')
-    bills = db.relationship('Bill', back_populates='patient')
+    appointments = db.relationship('Appointment', back_populates='patient', cascade="all, delete-orphan")
+    bills = db.relationship('Bill', back_populates='patient', cascade="all, delete-orphan")
 
     doctors = association_proxy('appointments', 'doctor')
 

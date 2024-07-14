@@ -173,6 +173,33 @@ class PatientByID(Resource):
             }, 200
         else:
             return {'message': 'Patient not found'}, 404
+        
+    def patch(self, patient_id):
+        patient = Patient.query.get_or_404(patient_id)
+        data = request.get_json()
+
+        for key, value in data.items():
+            if key != 'id' and hasattr(patient, key):
+                setattr(patient, key, value)
+
+        try:
+            db.session.commit()
+            return patient.to_dict(), 200
+        except Exception as e:
+            db.session.rollback()
+            return {'message': 'An error occurred while updating the patient', 'error': str(e)}, 500
+        
+    #@admin_required()
+    def delete(self, patient_id):
+        patient = Patient.query.get_or_404(patient_id)
+        try:
+            db.session.delete(patient)
+            db.session.commit()
+            return {'message': f'Patient with id {patient_id} has been deleted'}, 200
+        except Exception as e:
+            db.session.rollback()
+            return {'message': 'An error occurred while deleting the patient', 'error': str(e)}, 500
+
 
 class AppointmentResource(Resource):
     @admin_or_patient_required()
@@ -399,16 +426,29 @@ class ServiceByID(Resource):
     def delete(self, service_id):
         service = Service.query.get_or_404(service_id)
         try:
-            if service.bill_services:
-                # If there are associated bill_services, don't delete and return an error
-                return {"message": "Cannot delete service with associated bills"}, 400
+            # Delete associated bill_services first
+            BillService.query.filter_by(service_id=service_id).delete()
             
+            # Then delete the service
             db.session.delete(service)
             db.session.commit()
-            return jsonify({"message": f"Service with id {service_id} has been deleted"}), 200
+            return {"message": f"Service with id {service_id} has been deleted"}, 200
         except Exception as e:
             db.session.rollback()
-            return jsonify({"message": "An error occurred while deleting the service", "error": str(e)}), 500
+            return {"message": "An error occurred while deleting the service", "error": str(e)}, 500
+
+    def patch(self, service_id):
+        service = Service.query.get_or_404(service_id)
+        data = request.get_json()
+        try:
+            for key, value in data.items():
+                if hasattr(service, key):
+                    setattr(service, key, value)
+            db.session.commit()
+            return service.to_dict(), 200
+        except Exception as e:
+            db.session.rollback()
+            return {"message": "An error occurred while updating the service", "error": str(e)}, 500
 
 # Routes
 api.add_resource(Login, '/login')
