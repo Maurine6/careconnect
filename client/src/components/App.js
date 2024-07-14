@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
-import Appointment from './Appointment'; 
-import Navbar from './Navbar'; 
+import Appointment from './Appointment';
+import About from './About';
+import Navbar from './Navbar';
 
 function App() {
   return (
@@ -11,12 +12,12 @@ function App() {
       <div>
         <Navbar />
         <div className="container mt-4">
-          <Switch>
-            <Route exact path="/" component={() => <h1>Welcome to Care Connect</h1>} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/login" component={LogIn} />
-            <Route path="/appointment" component={Appointment} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<About />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/appointment" element={<Appointment />} />
+          </Routes>
         </div>
       </div>
     </Router>

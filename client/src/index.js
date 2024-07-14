@@ -1,9 +1,9 @@
-import React from "react";
-import App from "./components/App";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './components/App';  
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./index.css";
-import { createRoot } from "react-dom/client";
+import './index.css';
 
-const container = document.getElementById("root");
-const root = createRoot(container);
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
 root.render(<App />);
