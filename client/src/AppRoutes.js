@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import LogIn from './components/PublicRoutes/LogIn';
 import ServiceForm from './components/PrivateRoutes/ServiceForm';
 import PatientList from './components/PrivateRoutes/PatientList';
-import PatientForm from './components/PrivateRoutes/PatientForm';
 import AppointmentList from './components/PrivateRoutes/AppointmentList';
 import AppointmentForm from './components/PrivateRoutes/AppointmentForm';
 import StaffList from './components/PrivateRoutes/StaffList';
@@ -66,8 +65,6 @@ const AppRoutes = () => {
       { path: '/services/new', element: <ServiceForm /> },
       { path:'/my_data',  element:<Patient_home_Component />},
       { path: '/services/:id/edit', element: <ServiceForm /> },
-      { path: '/patients/new', element: <PatientForm /> },
-      { path: '/patients/:id/edit', element: <PatientForm /> },
       { path: '/appointments', element: <AppointmentList /> },
       { path: '/appointments/new', element: <AppointmentForm /> },
       { path: '/appointments/:id/edit', element: <AppointmentForm /> },
@@ -95,14 +92,6 @@ const AppRoutes = () => {
     element={
       loggedIn ? <ServiceForm /> : <Navigate to="/"  />
     }
-  />
-  <Route
-    path="/patients/new"
-    element={loggedIn ? <PatientForm /> : <Navigate to="/"  />}
-  />
-  <Route
-    path="/patients/:id/edit"
-    element={loggedIn ? <PatientForm /> : <Navigate to="/" replace />}
   />
   <Route
     path="/appointments"
