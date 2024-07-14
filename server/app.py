@@ -7,16 +7,18 @@ from functools import wraps
 import bcrypt
 from datetime import datetime, timedelta
 
+from config import app,db,api
+from models import Admin, Patient
 
 # Views go here!
 class checkSession(Resource):
+    @jwt_required()
     def get(self):
-        id = session.get('id')
-        if id:
-            patient = Patient.query.filter_by(id=id).first()
-            return patient.to_dict(),200
+        claims = get_jwt_identity()
+        if claims:
+            return {"user is logged in": "True"},200
         else:
-            return {"message":"Session expired"},401
+            return {"message": "Invalid token user not logged in"}, 401
 
 
 from models import db,Patient, Appointment,Service, Bill, BillService, Doctor
@@ -80,7 +82,8 @@ class Login(Resource):
                     identity={'id': patient.id, 'role': 'patient'},
                     expires_delta=timedelta(days=4)
                 )
-                return {'access_token': access_token, 'role': 'patient'}, 200
+                session['id'] = patient.id
+                return {'access_token': access_token}, 200
             else:
                 return {'message': 'Invalid password for patient'}, 401
         elif admin:
@@ -144,16 +147,7 @@ class SinglePatientResource(Resource):
             patient = Patient.query.get(claims['id'])
         
         if patient:
-            return {
-                'id': patient.id,
-                'first_name': patient.first_name,
-                'last_name': patient.last_name,
-                'username': patient.username,
-                'date_of_birth': patient.date_of_birth,
-                'contact_number': patient.contact_number,
-                'email': patient.email,
-                'role': patient.role
-            }, 200
+            return patient.to_dict(), 200        
         else:
             return {'message': 'Patient not found'}, 404
         
@@ -431,5 +425,6 @@ api.add_resource(BillResource, '/bills')
 api.add_resource(SingleBillResource, '/bills/me', endpoint='bills_self')
 api.add_resource(DoctorResource, '/doctors')
 api.add_resource(SingleDoctorResource, '/doctors/<int:doctor_id>')
+api.add_resource(checkSession,'/check_session',endpoint='check_session')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

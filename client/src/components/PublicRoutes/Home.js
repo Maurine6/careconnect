@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Homepage.css';
-import Layout from './Layout';
-
+import '../Homepage.css';
+import Navbar from '../navbar';
 const Home = () => {
   let Navigate  = useNavigate()
   const routeChange = ()=>{
@@ -10,7 +9,7 @@ const Home = () => {
   }
   return (
     <>   
-    <Layout />
+    <Navbar />
      <div className="homepage">
       <header className="hero-section">
         <h1>Welcome to Careconnect</h1>
