@@ -1,3 +1,4 @@
+#app.py
 #!/usr/bin/env python3
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask import Flask, make_response,jsonify,session,request, current_app
@@ -93,7 +94,7 @@ class Login(Resource):
                     identity={'id': admin.id, 'role': 'admin'},
                     expires_delta=timedelta(days=4)
                 )
-                return {'access_token': access_token}, 200
+                return {'access_token': access_token, 'role': 'admin'}, 200
             else:
                 return {'message': 'Invalid password for admin'}, 401
         else:
@@ -383,6 +384,31 @@ class SingleDoctorResource(Resource):
         db.session.delete(doctor)
         db.session.commit()
         return '', 204
+    
+
+class ServiceByID(Resource):
+    def get(self, service_id):
+        service = Service.query.get_or_404(service_id)
+        return {
+            "id": service.id,
+            "name": service.name,
+            "description": service.description,
+            "price": service.price
+        }, 200
+    
+    def delete(self, service_id):
+        service = Service.query.get_or_404(service_id)
+        try:
+            if service.bill_services:
+                # If there are associated bill_services, don't delete and return an error
+                return {"message": "Cannot delete service with associated bills"}, 400
+            
+            db.session.delete(service)
+            db.session.commit()
+            return jsonify({"message": f"Service with id {service_id} has been deleted"}), 200
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"message": "An error occurred while deleting the service", "error": str(e)}), 500
 
 # Routes
 api.add_resource(Login, '/login')
@@ -391,6 +417,7 @@ api.add_resource(SinglePatientResource, '/patient/me', endpoint='patient_self')
 api.add_resource(PatientByID, '/patient/<int:patient_id>', endpoint='patient_by_id')
 api.add_resource(services_offered,'/services_offered/<int:patient_id>', endpoint='services_offered')
 api.add_resource(services_data,'/services_data', endpoint='services_data')
+api.add_resource(ServiceByID, '/service_data/<int:service_id>')
 api.add_resource(AppointmentResource, '/appointments',)
 api.add_resource(AppointmentByID, '/appointments/<int:appointment_id>', endpoint='appointment_by_id')
 api.add_resource(SingleAppointmentResource, '/appointments/me', endpoint='appointments_self')
