@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function LogIn({setLoggedIn}) {
+function LogIn({setLoggedIn, loggedIn}) {
+  const Navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -12,7 +13,12 @@ function LogIn({setLoggedIn}) {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const resetLoggedIn = (state) => {
+    return new Promise((resolve) => {
+      setLoggedIn(state);
+      resolve();
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -21,22 +27,19 @@ function LogIn({setLoggedIn}) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.status === 200) {
+        const data = await response.json();
+        localStorage.setItem('access_token', data.access_token);
+        await resetLoggedIn(true);
+        console.log(data,response.status,loggedIn);
+        Navigate('/my_data')
       }
-      const data = await response.json();
-
-      localStorage.setItem("accessToken", data.access_token);
-      localStorage.setItem("role", data.role);
-      console.log(`Role: ${data.role}`);
-
-      console.log("Login successful:", data.access_token);
-      navigate('/patients')
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Login failed:", error.message);
     }
   };
-
+console.log(loggedIn)
   return (
     <div className="login">
       <form onSubmit={handleSubmit}>
