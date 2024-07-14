@@ -19,26 +19,35 @@ const AppRoutes = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    checkSession();
-}, []);
+    const checkSession = async () => {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        setLoggedIn(false);
+        return;
+      }
 
-  const checkSession = async () => {
-    const response = await fetch('/check_session', {
+      const response = await fetch('/check_session', {
         method: 'GET',
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
-    });
+      });
 
-    if (response.ok) {
-        const user = await response.json();
-        setLoggedIn(true);
+      if (response.ok) {
+        const data = await response.json();
+        if (data['user is logged in']) {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
       } else {
-        localStorage.removeItem('access_token');
         setLoggedIn(false);
-  
-    }
-};
+      }
+    };
+
+    checkSession();
+  }, []);;
   const publicRoutes = [
     {path:'/', element:<Home />},
     {path:'/services_offered',element:<ServiceList/>},
@@ -79,17 +88,17 @@ const AppRoutes = () => {
   />
   <Route
     path="/my_data"
-    element= {<Patient_home_Component /> }
+    element= {loggedIn ? <Patient_home_Component /> : <Navigate to="/login"  /> }
   />
   <Route
     path="/services/:id/edit"
     element={
-      loggedIn ? <ServiceForm /> : <Navigate to="/" replace />
+      loggedIn ? <ServiceForm /> : <Navigate to="/"  />
     }
   />
   <Route
     path="/patients/new"
-    element={loggedIn ? <PatientForm /> : <Navigate to="/" replace />}
+    element={loggedIn ? <PatientForm /> : <Navigate to="/"  />}
   />
   <Route
     path="/patients/:id/edit"

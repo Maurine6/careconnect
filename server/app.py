@@ -11,17 +11,13 @@ from models import Admin, Patient
 
 # Views go here!
 class checkSession(Resource):
+    @jwt_required()
     def get(self):
-        current_user_id = get_jwt_identity().get('id')
-        if current_user_id:
-            patient = Patient.query.filter_by(id=current_user_id).first()
-            if patient:
-                return patient.to_dict(), 200
-            else:
-                return {"message": "User not found"}, 404
+        claims = get_jwt_identity()
+        if claims:
+            return {"user is logged in": "True"},200
         else:
-            return {"message": "Invalid token"}, 401
-
+            return {"message": "Invalid token user not logged in"}, 401
 
 
 from models import db,Patient, Appointment,Service, Bill, BillService, Doctor
@@ -150,7 +146,7 @@ class SinglePatientResource(Resource):
             patient = Patient.query.get(claims['id'])
         
         if patient:
-            return make_response(patient.to_dict(),200)
+            return patient.to_dict(), 200        
         else:
             return {'message': 'Patient not found'}, 404
         

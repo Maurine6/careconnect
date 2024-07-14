@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Navbar({ children }) {
+function Navbar() {
   return (
 <nav class="navbar navbar-expand-sm bg-light">
   <div class="container">

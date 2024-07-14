@@ -12,7 +12,12 @@ function LogIn({setLoggedIn, loggedIn}) {
     console.log(e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const resetLoggedIn = (state) => {
+    return new Promise((resolve) => {
+      setLoggedIn(state);
+      resolve();
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -24,15 +29,12 @@ function LogIn({setLoggedIn, loggedIn}) {
         },
         body: JSON.stringify(formData)
       });
-      if (response.ok) {
+      if (response.status === 200) {
         const data = await response.json();
         localStorage.setItem('access_token', data.access_token);
-        setLoggedIn(true)
-        console.log(loggedIn)
+        await resetLoggedIn(true);
+        console.log(data,response.status,loggedIn);
         Navigate('/my_data')
-      } else{
-        console.log(loggedIn)
-        console.error("Login failed:", response.statusText);
       }
     }
     catch (error) {
@@ -40,9 +42,8 @@ function LogIn({setLoggedIn, loggedIn}) {
       console.error("Login failed:", error.message);
       // Handle errors
     }
-    console.log(loggedIn )
   };
-
+console.log(loggedIn)
   return (
     <div className="login">
       <form onSubmit={handleSubmit}>
