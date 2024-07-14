@@ -1,30 +1,22 @@
+// src/App.js
 
-// routes.js
 import React from 'react';
-import Login from './components/LogIn';
-import SignUp from './components/SignUp'
-import PatientList from './components/PatientList';
-import Services from './components/Services';
-import AddNewService from './components/NewService';
-import AppointmentList from './components/AppointmentList';
-import NewAppointment from './components/NewAppointment';
+import Home from './components/Home';
+import ServiceList from './components/Services/ServiceList';
+import SignUp from './components/Auth/SignUp';
+import AboutUs from './components/AboutUs'; 
+import AppointmentForm from './components/Appointments/AppointmentForm';
+import LogIn from './components/Auth/LogIn';
+
 
 const publicRoutes = [
-  { path: '/', element: <SignUp /> },
-  { path: '/login', element: <Login /> },
-  { path: '/signup', element: <SignUp /> },
-  { path: '/services_offered', element: <Services /> },
-  { path: '/services_offered/:id', element: <Services /> },
-  
-  
-];
+    {path:'/', element:<Home />},
+    {path:'/services_offered',element:<ServiceList/>},
+    { path: '/login', element: <LogIn /> },
+    { path: '/appointments/new', element: <AppointmentForm /> },
+    { path: '/about-us', element: <AboutUs />},
+    { path: '*', element: <div>Page not found</div> },
+    { path:'/signup',element: <SignUp />},
+  ];
+  export { publicRoutes };
 
-const privateRoutes = [  
-    { path: '/', element: <SignUp /> },
-    { path: '/new_services', element: <AddNewService /> },
-    { path: '/patients', element: <PatientList /> },
-    { path: '/appointments', element: <AppointmentList /> },
-    { path: '/new_appointments', element: <NewAppointment />},
-];
-
-export { publicRoutes, privateRoutes };

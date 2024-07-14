@@ -8,8 +8,15 @@ import bcrypt
 from datetime import datetime, timedelta
 
 
-from config import app,db,api
-from models import Admin, Patient
+# Views go here!
+class checkSession(Resource):
+    def get(self):
+        id = session.get('id')
+        if id:
+            patient = Patient.query.filter_by(id=id).first()
+            return patient.to_dict(),200
+        else:
+            return {"message":"Session expired"},401
 
 
 from models import db,Patient, Appointment,Service, Bill, BillService, Doctor
