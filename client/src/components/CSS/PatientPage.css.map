@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,IAAI;EACA,MAAM,EAAE,GAAG;EACX,MAAM,EAAE,KAAK;EACb,WAAW,EAAE,iBAAiB;;AAElC,qBAAqB;EACjB,gBAAgB,EAAC,IAAI",
+"sources": ["PatientPage.scss"],
+"names": [],
+"file": "PatientPage.css"
+}

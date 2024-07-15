@@ -1,3 +1,4 @@
+#app.py
 #!/usr/bin/env python3
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask import Flask, make_response,jsonify,session,request, current_app
@@ -6,16 +7,18 @@ from functools import wraps
 import bcrypt
 from datetime import datetime, timedelta
 
+from config import app,db,api
+from models import Admin, Patient
 
 # Views go here!
 class checkSession(Resource):
+    @jwt_required()
     def get(self):
-        id = session.get('id')
-        if id:
-            patient = Patient.query.filter_by(id=id).first()
-            return patient.to_dict(),200
+        claims = get_jwt_identity()
+        if claims:
+            return {"user is logged in": "True"},200
         else:
-            return {"message":"Session expired"},401
+            return {"message": "Invalid token user not logged in"}, 401
 
 
 from models import db,Patient, Appointment,Service, Bill, BillService, Doctor
@@ -79,6 +82,7 @@ class Login(Resource):
                     identity={'id': patient.id, 'role': 'patient'},
                     expires_delta=timedelta(days=4)
                 )
+                session['id'] = patient.id
                 return {'access_token': access_token}, 200
             else:
                 return {'message': 'Invalid password for patient'}, 401
@@ -90,7 +94,7 @@ class Login(Resource):
                     identity={'id': admin.id, 'role': 'admin'},
                     expires_delta=timedelta(days=4)
                 )
-                return {'access_token': access_token}, 200
+                return {'access_token': access_token, 'role': 'admin'}, 200
             else:
                 return {'message': 'Invalid password for admin'}, 401
         else:
@@ -143,16 +147,7 @@ class SinglePatientResource(Resource):
             patient = Patient.query.get(claims['id'])
         
         if patient:
-            return {
-                'id': patient.id,
-                'first_name': patient.first_name,
-                'last_name': patient.last_name,
-                'username': patient.username,
-                'date_of_birth': patient.date_of_birth,
-                'contact_number': patient.contact_number,
-                'email': patient.email,
-                'role': patient.role
-            }, 200
+            return patient.to_dict(), 200        
         else:
             return {'message': 'Patient not found'}, 404
         
@@ -178,6 +173,33 @@ class PatientByID(Resource):
             }, 200
         else:
             return {'message': 'Patient not found'}, 404
+        
+    def patch(self, patient_id):
+        patient = Patient.query.get_or_404(patient_id)
+        data = request.get_json()
+
+        for key, value in data.items():
+            if key != 'id' and hasattr(patient, key):
+                setattr(patient, key, value)
+
+        try:
+            db.session.commit()
+            return patient.to_dict(), 200
+        except Exception as e:
+            db.session.rollback()
+            return {'message': 'An error occurred while updating the patient', 'error': str(e)}, 500
+        
+    #@admin_required()
+    def delete(self, patient_id):
+        patient = Patient.query.get_or_404(patient_id)
+        try:
+            db.session.delete(patient)
+            db.session.commit()
+            return {'message': f'Patient with id {patient_id} has been deleted'}, 200
+        except Exception as e:
+            db.session.rollback()
+            return {'message': 'An error occurred while deleting the patient', 'error': str(e)}, 500
+
 
 class AppointmentResource(Resource):
     @admin_or_patient_required()
@@ -389,6 +411,44 @@ class SingleDoctorResource(Resource):
         db.session.delete(doctor)
         db.session.commit()
         return '', 204
+    
+
+class ServiceByID(Resource):
+    def get(self, service_id):
+        service = Service.query.get_or_404(service_id)
+        return {
+            "id": service.id,
+            "name": service.name,
+            "description": service.description,
+            "price": service.price
+        }, 200
+    
+    def delete(self, service_id):
+        service = Service.query.get_or_404(service_id)
+        try:
+            # Delete associated bill_services first
+            BillService.query.filter_by(service_id=service_id).delete()
+            
+            # Then delete the service
+            db.session.delete(service)
+            db.session.commit()
+            return {"message": f"Service with id {service_id} has been deleted"}, 200
+        except Exception as e:
+            db.session.rollback()
+            return {"message": "An error occurred while deleting the service", "error": str(e)}, 500
+
+    def patch(self, service_id):
+        service = Service.query.get_or_404(service_id)
+        data = request.get_json()
+        try:
+            for key, value in data.items():
+                if hasattr(service, key):
+                    setattr(service, key, value)
+            db.session.commit()
+            return service.to_dict(), 200
+        except Exception as e:
+            db.session.rollback()
+            return {"message": "An error occurred while updating the service", "error": str(e)}, 500
 
 # Routes
 api.add_resource(Login, '/login')
@@ -397,6 +457,7 @@ api.add_resource(SinglePatientResource, '/patient/me', endpoint='patient_self')
 api.add_resource(PatientByID, '/patient/<int:patient_id>', endpoint='patient_by_id')
 api.add_resource(services_offered,'/services_offered/<int:patient_id>', endpoint='services_offered')
 api.add_resource(services_data,'/services_data', endpoint='services_data')
+api.add_resource(ServiceByID, '/service_data/<int:service_id>')
 api.add_resource(AppointmentResource, '/appointments',)
 api.add_resource(AppointmentByID, '/appointments/<int:appointment_id>', endpoint='appointment_by_id')
 api.add_resource(SingleAppointmentResource, '/appointments/me', endpoint='appointments_self')
@@ -404,5 +465,6 @@ api.add_resource(BillResource, '/bills')
 api.add_resource(SingleBillResource, '/bills/me', endpoint='bills_self')
 api.add_resource(DoctorResource, '/doctors')
 api.add_resource(SingleDoctorResource, '/doctors/<int:doctor_id>')
+api.add_resource(checkSession,'/check_session',endpoint='check_session')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

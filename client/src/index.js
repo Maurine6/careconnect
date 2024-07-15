@@ -1,5 +1,8 @@
+//index
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import "./index.css";
 import { createRoot } from "react-dom/client";
 import AppRoutes from "./AppRoutes";
