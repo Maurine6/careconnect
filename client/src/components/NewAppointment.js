@@ -67,7 +67,7 @@ const NewAppointment = () => {
 
       const data = await response.json();
       console.log('Appointment created:', data);
-      navigate('/services_offered');
+      navigate('/home');
     } catch (error) {
       console.error('Error creating appointment:', error);
     }
@@ -92,11 +92,12 @@ const NewAppointment = () => {
   };
 
   return (
-    <div>
+    <div className='newappointment'>
       <h2>Create New Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="reason">Reason for Appointment:</label>
+          <br/><br/>
           <input
             type="text"
             id="reason"
@@ -107,6 +108,7 @@ const NewAppointment = () => {
         </div>
         <div>
           <label htmlFor="appointment_date">Appointment Date:</label>
+          <br/><br/>
           <input
             type="datetime-local"
             id="appointment_date"
@@ -117,6 +119,7 @@ const NewAppointment = () => {
         </div>
         <div>
           <label htmlFor="doctor_id">Doctor:</label>
+          <br/><br/>
           <select
             id="doctor_id"
             name="doctor_id"
@@ -131,6 +134,7 @@ const NewAppointment = () => {
             ))}
           </select>
         </div>
+        <br/><br/>
         <button type="submit">Create Appointment</button>
       </form>
     </div>

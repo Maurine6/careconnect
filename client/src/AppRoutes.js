@@ -4,7 +4,8 @@ import LogIn from './components/PublicRoutes/LogIn';
 import ServiceForm from './components/PrivateRoutes/ServiceForm';
 //import PatientList from './components/PrivateRoutes/PatientList';
 import PatientList from './components/PatientList';
-import AppointmentList from './components/PrivateRoutes/AppointmentList';
+//import AppointmentList from './components/PrivateRoutes/AppointmentList';
+import AppointmentList from './components/AppointmentList';
 import AppointmentForm from './components/PrivateRoutes/AppointmentForm';
 import StaffList from './components/PrivateRoutes/StaffList';
 import StaffForm from './components/PrivateRoutes/StaffForm';
@@ -14,6 +15,8 @@ import Services from './components/Services';
 import SignUp from './components/PublicRoutes/SignUp';
 import AboutUs from './components/PublicRoutes/AboutUs'; 
 import Patient_home_Component from './components/PrivateRoutes/patient_data';
+import Access from './components/Acess';
+import NewAppointment from './components/NewAppointment';
 
 
 const AppRoutes = () => {
@@ -51,7 +54,7 @@ const AppRoutes = () => {
   }, []);;
   const publicRoutes = [
     {path:'/', element:<Home />},
-    {path:'/services_offered',element:<Services/>},
+    {path:'/services_offered',element:<Access/>},
     { path: '/appointments/new', element: <AppointmentForm /> },
     { path: '/about-us', element: <AboutUs />},
     { path: '*', element: <div>Page not found</div> },
@@ -65,7 +68,7 @@ const AppRoutes = () => {
 
     const privateRoutes = [
       { path: '/services/new', element: <ServiceForm /> },
-      { path:'/my_data',  element:<Patient_home_Component />},
+      { path:'/my_data',  element:<NewAppointment />},
       { path: '/services/:id/edit', element: <ServiceForm /> },
       { path: '/appointments', element: <AppointmentList /> },
       { path: '/appointments/new', element: <AppointmentForm /> },
@@ -87,7 +90,7 @@ const AppRoutes = () => {
   />
   <Route
     path="/my_data"
-    element= {loggedIn ? <Patient_home_Component /> : <Navigate to="/login"  /> }
+    element= {loggedIn ? <NewAppointment/> : <Navigate to="/login"  /> }
   />
   <Route
     path="/services/:id/edit"

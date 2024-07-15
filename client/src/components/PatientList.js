@@ -1,11 +1,9 @@
-//patientlist
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 
 function PatientList() {
   const [patients, setPatients] = useState([]);
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
     fetch("/patients")
@@ -14,43 +12,92 @@ function PatientList() {
   }, []);
 
   function handleDelete(id) {
-    fetch(`/patient/<int:patient_id>`, {
+    fetch(`/patient/${id}`, {
       method: "DELETE",
     }).then((r) => {
       if (r.ok) {
         setPatients((patients) =>
           patients.filter((patient) => patient.id !== id)
         );
+        // Clear selectedPatient if the deleted patient was selected
+        if (selectedPatient && selectedPatient.id === id) {
+          setSelectedPatient(null);
+        }
       }
     });
   }
 
+  async function handleUpdate(id) {
+    const updatedFields = {};
+    updatedFields.first_name = prompt("Enter updated first name:");
+    updatedFields.last_name = prompt("Enter updated last name:");
+    updatedFields.contact_number = prompt("Enter updated contacts:");
+    updatedFields.email = prompt("Enter updated email:");
+    // Add more fields as needed
+
+    if (!updatedFields.first_name && !updatedFields.last_name) {
+      // Exit early if user cancels or provides no input
+      return;
+    }
+
+    try {
+      const response = await fetch(`/patient/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFields),
+      });
+
+      if (response.ok) {
+        console.log("Patient updated successfully!");
+        // Optionally update local state or handle response
+      } else {
+        throw new Error("Failed to update patient");
+      }
+    } catch (error) {
+      console.error("Error updating patient:", error);
+    }
+  }
+
+  function handlePatientSelect(id) {
+    // Fetch patient details by ID and set selectedPatient state
+    fetch(`/patient/${id}`)
+      .then((r) => r.json())
+      .then((patient) => setSelectedPatient(patient))
+      .catch((error) => console.error("Error fetching patient:", error));
+  }
+
   return (
-    <div>
-    <h1 style={{ textAlign: 'center', color: 'darkblue' }}>Our Patients Corner</h1> 
-      <div className="feature">
-          <img src="/hospital.jpg" alt="Efficient Management" className="feature-image" />
-          <h3>Efficient Management</h3>
-          <p>Streamline operations and improve efficiency with our tools.</p>
-        </div>
-        <div className="bg">
-          <img src="/pexels-fr3nks-305568.jpg" alt="Efficient Management" className="bg-image" />
-          <h3>Efficient Management</h3>
-          <p>Streamline operations and improve efficiency with our tools.</p>
-        </div>
-        <section className="container">
-            {patients.map((patient) => (
-                <div key={patient.id} className="card">
-                    <h2>
-                        <Link to={`/patient/${patient.id}`}>{patient.first_name} {patient.last_name}</Link>
-                    </h2>
-                    <p>Name: {patient.first_name} {patient.last_name}</p>
-                    <button onClick={() => handleDelete(patient.id)}>Delete</button>
-                </div>
-                ))}
-        </section>
-  </div>
-  
+    <div className="patients">
+      <section className="container">
+        <h2>Patients List</h2>
+        {/* Dropdown to select patients */}
+        <select onChange={(e) => handlePatientSelect(e.target.value)}>
+          <option value="">Select a patient</option>
+          {patients.map((patient) => (
+            <option key={patient.id} value={patient.id}>
+              {patient.first_name} {patient.last_name}
+            </option>
+          ))}
+        </select>
+
+        {/* Display selected patient details */}
+        {selectedPatient && (
+          <div className="card">
+            <h2>
+              {selectedPatient.first_name} {selectedPatient.last_name}
+            </h2>
+            <p>Email: {selectedPatient.email}</p>
+            <p>Phone Number: {selectedPatient.contact_number}</p>
+            <p>Date of Birth: {selectedPatient.date_of_birth}</p>
+            <button onClick={() => handleUpdate(selectedPatient.id)}>Update</button>
+            <button onClick={() => handleDelete(selectedPatient.id)}>Delete</button>
+          </div>
+        )}
+
+      </section>
+    </div>
   );
 }
 

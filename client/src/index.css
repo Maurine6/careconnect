@@ -20,21 +20,6 @@
   height: 50vh;
   border-radius: 10px;
 }
-.container {
-  position:absolute;
-  text-emphasis-color: blue;
-  margin-top: auto;
-  top: 50px;
-  left:10%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-decoration: #61dafb;
-  display:list-item;
-  align-self: auto;
-  align-items:left;
-  flex-wrap: wrap;
-  width: 500px;
-  color: darkblue;
-}
 
 .details-container {
   position:absolute;
@@ -55,6 +40,29 @@
 .bg-image{
   height: 700px;
   width: 1900px;
+}
+.patient{
+  position:absolute;
+  text-emphasis-color: blue;
+  margin-top: auto;
+  top: 50px;
+  left:10%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration: #61dafb;
+  display:list-item;
+  align-self: auto;
+  align-items:left;
+  flex-wrap: wrap;
+  width: 500px;
+  color: darkblue;
+}
+.access{
+  align-items: center;
+  font-family: 'Times New Roman', Times, serif;
+  position: absolute;
+}
+.newappointment{
+  align-self: center;
 }
 
 

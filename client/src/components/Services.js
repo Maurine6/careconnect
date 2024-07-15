@@ -1,60 +1,100 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Services() {
   const [services, setServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
+  const [selectedDropdownService, setSelectedDropdownService] = useState("");
 
   useEffect(() => {
     fetch("/services_data")
       .then((r) => r.json())
-      .then(setServices);
+      .then(setServices)
+      .catch((error) => console.error("Error fetching services:", error));
   }, []);
 
   function handleDelete(id) {
     fetch(`/service_data/${id}`, {
       method: "DELETE",
     })
-    .then((r) => {
-      if (r.ok) {
-        setServices(services.filter((service) => service.id !== id));
-      }
-    })
-    .catch((error) => console.error("Error deleting service:", error));
+      .then((r) => {
+        if (r.ok) {
+          setServices(services.filter((service) => service.id !== id));
+          if (selectedService && selectedService.id === id) {
+            setSelectedService(null);
+          }
+        } else {
+          throw new Error("Failed to delete service");
+        }
+      })
+      .catch((error) => console.error("Error deleting service:", error));
   }
 
-  function toggleServiceDetails(service) {
-    setSelectedService(service.id === selectedService ? null : service);
+  async function handleUpdate(id) {
+    const updatedFields = {};
+    updatedFields.name = prompt("Enter updated name:", selectedService.name);
+    updatedFields.description = prompt("Enter updated description:", selectedService.description);
+    updatedFields.price = prompt("Enter updated price:", selectedService.price);
+
+    if (!updatedFields.name && !updatedFields.price) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/services_data/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFields),
+      });
+
+      if (response.ok) {
+        console.log("Service updated successfully!");
+        fetch(`/services_data/${id}`)
+          .then((r) => r.json())
+          .then((updatedService) => {
+            setSelectedService(updatedService);
+            fetch("/services_data")
+              .then((r) => r.json())
+              .then(setServices);
+          });
+      } else {
+        throw new Error("Failed to update service");
+      }
+    } catch (error) {
+      console.error("Error updating service:", error);
+    }
+  }
+
+  function handleDropdownChange(event) {
+    const selectedId = event.target.value;
+    const selected = services.find(service => service.id === parseInt(selectedId));
+    setSelectedDropdownService(selectedId);
+    setSelectedService(selected);
   }
 
   return (
     <div>
-      <h1 style={{ textAlign: 'center', color: 'darkblue' }}>Our services</h1>
-      <div className="feature">
-          <img src="/hospital.jpg" alt="Efficient Management" className="feature-image" />
-          <h3>Efficient Management</h3>
-          <p>Streamline operations and improve efficiency with our tools.</p>
-        </div>
-        <div className="bg">
-          <img src="/pexels-fr3nks-305568.jpg" alt="Efficient Management" className="bg-image" />
-          <h3>Efficient Management</h3>
-          <p>Streamline operations and improve efficiency with our tools.</p>
-        </div>
-      <section className="container">
-        {services.map((service) => (
-          <div key={service.id} className="card" onClick={() => toggleServiceDetails(service)}>
-            <h2>{service.name}</h2>
-          </div>
-        ))}
-      </section>
+      <div className="dropdown">
+        <h2> Services List</h2>
+        <select value={selectedDropdownService} onChange={handleDropdownChange}>
+          <option value="">Select a service</option>
+          {services.map((service) => (
+            <option key={service.id} value={service.id}>
+              {service.name}
+            </option>
+          ))}
+        </select>
+      </div>
       {selectedService && (
-        <div className="details-container">
+        <div className="details">
           <h3>{selectedService.name}</h3>
           <p>Description: {selectedService.description}</p>
           <p>Price: {selectedService.price}</p>
-          <button onClick={() => handleDelete(selectedService)}>Delete</button>
+          <button onClick={() => handleUpdate(selectedService.id)}>Update</button>
+          <button onClick={() => handleDelete(selectedService.id)}>Delete</button>
         </div>
-)}
-
+      )}
     </div>
   );
 }
