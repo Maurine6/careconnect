@@ -1,5 +1,6 @@
 //signup
 import React, { useState } from "react";
+import Navbar from "../navbar";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -49,6 +50,7 @@ function SignUp() {
 
   return (
     <div className="signup">
+      <Navbar/>
       <form onSubmit={handleSubmit}>
         <h1>Welcome to Careconnect.</h1>
         <div className="mb-3">
