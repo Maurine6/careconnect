@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PatientNavbar from './PatientNavbar';
+import '../CSS/PatientPage.css'
+import {Nav} from 'react-bootstrap'
 
 const SinglePatient = () => {
   const [patientData, setPatientData] = useState(null);
@@ -14,7 +16,6 @@ const SinglePatient = () => {
         navigate('/login');
         return;
       }
-
       try {
         const response = await fetch('/patient/me', {
           method: 'GET',
@@ -49,13 +50,15 @@ const SinglePatient = () => {
   }
 
   return (
-    <div>
-      <PatientNavbar />
-      <h1>Patient Data</h1>
-      <div>
-        
-      </div>
+  <div className='container-fluid mt-3'>
+  <div className='row'>
+    <PatientNavbar/>                   
+    <div className='col'>
+      <h1>Heres my info</h1>
     </div>
+  </div>
+</div>
+
   );
 };
 
