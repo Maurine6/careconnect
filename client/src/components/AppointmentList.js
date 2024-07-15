@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import './AppointmentList.css';  // Make sure to import the CSS file
 
 function AppointmentList() {
   const [appointments, setAppointments] = useState([]);
@@ -19,7 +20,7 @@ function AppointmentList() {
   }
 
   return (
-    <div>
+    <div className="appointment-list">
       <div className="dropdown">
         <h1>Appointments</h1>
         <select onChange={handleDropdownChange}>
@@ -32,15 +33,13 @@ function AppointmentList() {
         </select>
       </div>
       {selectedAppointment && (
-        <section className="container">
-          <div className="card">
-            <h2>Appointment - {selectedAppointment.id}</h2>
-            <p>Patient ID: {selectedAppointment.patient_id}</p>
-            <p>Doctor ID: {selectedAppointment.doctor_id}</p>
-            <p>Status: {selectedAppointment.status}</p>
-            <p>Date: {new Date(selectedAppointment.appointment_date).toLocaleString()}</p>
-            <p>Reason: {selectedAppointment.reason}</p>
-          </div>
+        <section className="a-details">
+            <h3>Appointment - {selectedAppointment.id}</h3>
+            <p><strong>Patient ID:</strong> {selectedAppointment.patient_id}</p>
+            <p><strong>Doctor ID:</strong> {selectedAppointment.doctor_id}</p>
+            <p><strong>Status:</strong> {selectedAppointment.status}</p>
+            <p><strong>Date:</strong> {new Date(selectedAppointment.appointment_date).toLocaleString()}</p>
+            <p><strong>Reason:</strong> {selectedAppointment.reason}</p>
         </section>
       )}
     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './navbar';
+import './NewAppointment.css'; 
 
 const NewAppointment = () => {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const NewAppointment = () => {
   
       const data = await response.json();
       console.log('Appointment created:', data);
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       console.error('Error creating appointment:', error);
     }
@@ -93,6 +94,8 @@ const NewAppointment = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className='newappointment'>
       <Navbar/>
       <h2>Create New Appointment</h2>
@@ -140,6 +143,7 @@ const NewAppointment = () => {
         <button type="submit">Create Appointment</button>
       </form>
     </div>
+    </>
   );
 };
 

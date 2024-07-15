@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import './PatientList.css'
 
 function PatientList() {
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
+  const [selectedDropdownPatient, setSelectedDropdownPatient] = useState("");
 
   useEffect(() => {
     fetch("/patients")
@@ -19,9 +21,9 @@ function PatientList() {
         setPatients((patients) =>
           patients.filter((patient) => patient.id !== id)
         );
-        // Clear selectedPatient if the deleted patient was selected
         if (selectedPatient && selectedPatient.id === id) {
           setSelectedPatient(null);
+          setSelectedDropdownPatient("");
         }
       }
     });
@@ -29,14 +31,12 @@ function PatientList() {
 
   async function handleUpdate(id) {
     const updatedFields = {};
-    updatedFields.first_name = prompt("Enter updated first name:");
-    updatedFields.last_name = prompt("Enter updated last name:");
-    updatedFields.contact_number = prompt("Enter updated contacts:");
-    updatedFields.email = prompt("Enter updated email:");
-    // Add more fields as needed
+    updatedFields.first_name = prompt("Enter updated first name:", selectedPatient.first_name);
+    updatedFields.last_name = prompt("Enter updated last name:", selectedPatient.last_name);
+    updatedFields.contact_number = prompt("Enter updated contacts:", selectedPatient.contact_number);
+    updatedFields.email = prompt("Enter updated email:", selectedPatient.email);
 
-    if (!updatedFields.first_name && !updatedFields.last_name) {
-      // Exit early if user cancels or provides no input
+    if (!updatedFields.first_name && !updatedFields.last_name && !updatedFields.contact_number && !updatedFields.email) {
       return;
     }
 
@@ -51,7 +51,14 @@ function PatientList() {
 
       if (response.ok) {
         console.log("Patient updated successfully!");
-        // Optionally update local state or handle response
+        fetch(`/patient/${id}`)
+          .then((r) => r.json())
+          .then((updatedPatient) => {
+            setSelectedPatient(updatedPatient);
+            fetch("/patients")
+              .then((r) => r.json())
+              .then(setPatients);
+          });
       } else {
         throw new Error("Failed to update patient");
       }
@@ -60,20 +67,18 @@ function PatientList() {
     }
   }
 
-  function handlePatientSelect(id) {
-    // Fetch patient details by ID and set selectedPatient state
-    fetch(`/patient/${id}`)
-      .then((r) => r.json())
-      .then((patient) => setSelectedPatient(patient))
-      .catch((error) => console.error("Error fetching patient:", error));
+  function handleDropdownChange(event) {
+    const selectedId = event.target.value;
+    const selected = patients.find(patient => patient.id === parseInt(selectedId));
+    setSelectedDropdownPatient(selectedId);
+    setSelectedPatient(selected);
   }
 
   return (
-    <div className="patients">
-      <section className="dropdown">
+    <div className="patients-container">
+      <div className="dropdown">
         <h2>Patients List</h2>
-        {/* Dropdown to select patients */}
-        <select onChange={(e) => handlePatientSelect(e.target.value)}>
+        <select value={selectedDropdownPatient} onChange={handleDropdownChange}>
           <option value="">Select a patient</option>
           {patients.map((patient) => (
             <option key={patient.id} value={patient.id}>
@@ -81,22 +86,19 @@ function PatientList() {
             </option>
           ))}
         </select>
-
-        {/* Display selected patient details */}
-        {selectedPatient && (
-          <div className="card">
-            <h2>
-              {selectedPatient.first_name} {selectedPatient.last_name}
-            </h2>
-            <p>Email: {selectedPatient.email}</p>
-            <p>Phone Number: {selectedPatient.contact_number}</p>
-            <p>Date of Birth: {selectedPatient.date_of_birth}</p>
+      </div>
+      {selectedPatient && (
+        <div className="details">
+          <h3>{selectedPatient.first_name} {selectedPatient.last_name}</h3>
+          <p><strong>Email:</strong> {selectedPatient.email}</p>
+          <p><strong>Phone Number:</strong> {selectedPatient.contact_number}</p>
+          <p><strong>Date of Birth:</strong> {selectedPatient.date_of_birth}</p>
+          <div className="button-group">
             <button onClick={() => handleUpdate(selectedPatient.id)}>Update</button>
             <button onClick={() => handleDelete(selectedPatient.id)}>Delete</button>
           </div>
-        )}
-
-      </section>
+        </div>
+      )}
     </div>
   );
 }
