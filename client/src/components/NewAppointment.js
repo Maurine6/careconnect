@@ -97,7 +97,6 @@ const NewAppointment = () => {
     <>
     <Navbar />
     <div className='newappointment'>
-      <Navbar/>
       <h2>Create New Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div>

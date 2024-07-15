@@ -42,10 +42,9 @@
   width: 1900px;
 }
 .access{
-  align-items: center;
   font-family: 'Times New Roman', Times, serif;
   position: absolute;
-  background-color: bisque;
+  background-color: rgb(133, 122, 238);
   width: 2000px;
   height: 1200px;
  
@@ -55,8 +54,13 @@
   width: 300px;
 
 }
-.newappointment{
-  align-self: center;
+.login{
+  align-items: center;
+  font-family: 'Times New Roman', Times, serif;
+  position: absolute;
+  background-color: rgb(133, 122, 238);
+  width: 2000px;
+  height: 1200px;
 }
 
 

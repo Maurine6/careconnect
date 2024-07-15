@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../navbar";
+import { Link } from "react-router-dom";
+import "./LogIn.css";
 
 function LogIn({setLoggedIn, loggedIn}) {
   const Navigate = useNavigate()
@@ -42,8 +44,9 @@ function LogIn({setLoggedIn, loggedIn}) {
   };
 console.log(loggedIn)
   return (
-    <div className="login">
+    <div>
       <Navbar/>
+      <div className="login">
       <form onSubmit={handleSubmit}>
         <h1>Please Login to Your Account.</h1>
         <div className="mb-3">
@@ -70,6 +73,8 @@ console.log(loggedIn)
         </div>
         <button type="submit" className="btn btn-info">Log In</button>
       </form>
+      <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
+      </div>
     </div>
   );
 }
