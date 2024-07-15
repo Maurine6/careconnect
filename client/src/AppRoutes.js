@@ -12,41 +12,45 @@ import ServiceList from './components/PrivateRoutes/ServiceList';
 import SignUp from './components/PublicRoutes/SignUp';
 import AboutUs from './components/PublicRoutes/AboutUs'; 
 import Patient_home_Component from './components/PrivateRoutes/patient_data';
+import HomePage from './components/PrivateRoutes/patientHome';
 
 
 const AppRoutes = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        setLoggedIn(false);
-        return;
+  const checkSession = async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      setLoggedIn(false);
+      return;
+    }
+
+    const response = await fetch('/check_session', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
+    });
 
-      const response = await fetch('/check_session', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data['user is logged in']) {
-          setLoggedIn(true);
-        } else {
-          setLoggedIn(false);
-        }
+    if (response.ok) {
+      const data = await response.json();
+      if (data['user is logged in']) {
+        setLoggedIn(true);
+        return true;
       } else {
         setLoggedIn(false);
+        return false;
       }
-    };
+    } else {
+      setLoggedIn(false);
+      return false;
+    }
+  };
 
+  useEffect(() => {
     checkSession();
-  }, []);;
+  }, []);
   const publicRoutes = [
     {path:'/', element:<Home />},
     {path:'/services_offered',element:<ServiceList/>},
@@ -61,17 +65,6 @@ const AppRoutes = () => {
       <Route key={index} path={route.path} element={route.element} />
     )); 
 
-    const privateRoutes = [
-      { path: '/services/new', element: <ServiceForm /> },
-      { path:'/my_data',  element:<Patient_home_Component />},
-      { path: '/services/:id/edit', element: <ServiceForm /> },
-      { path: '/appointments', element: <AppointmentList /> },
-      { path: '/appointments/new', element: <AppointmentForm /> },
-      { path: '/appointments/:id/edit', element: <AppointmentForm /> },
-      { path: '/staff/new', element: <StaffForm /> },
-      { path: '/staff/:id/edit', element: <StaffForm /> },
-      { path: '*', element: <div>Page not found</div> }
-    ];
   return (
     <Router>
      <Routes>
@@ -80,12 +73,12 @@ const AppRoutes = () => {
   <Route
     path="/services/new"
     element={
-      loggedIn ? <ServiceForm /> : <ServiceForm />
+      checkSession() ? <ServiceForm /> : <ServiceForm />
     }
   />
   <Route
     path="/my_data"
-    element= {loggedIn ? <Patient_home_Component /> : <Navigate to="/login"  /> }
+    element= {checkSession() ? <Patient_home_Component /> : <Navigate to="/login"  /> }
   />
   <Route
     path="/services/:id/edit"
@@ -112,6 +105,10 @@ const AppRoutes = () => {
   <Route
     path="/staff/:id/edit"
     element={loggedIn ? <StaffForm /> : <Navigate to="/" replace />}
+  />
+  <Route
+    path='/patientHome'
+    element={<HomePage/>}
   />
   <Route
     path="*"
