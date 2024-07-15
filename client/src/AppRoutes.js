@@ -17,7 +17,6 @@ import AboutUs from './components/PublicRoutes/AboutUs';
 import Patient_home_Component from './components/PrivateRoutes/patient_data';
 import Access from './components/Acess';
 import NewAppointment from './components/NewAppointment';
-import About from './components/About';
 
 
 const AppRoutes = () => {
@@ -57,7 +56,7 @@ const AppRoutes = () => {
     {path:'/', element:<Home />},
     {path:'/services_offered',element:<Access/>},
     { path: '/appointments/new', element: <AppointmentForm /> },
-    { path: '/about-us', element: <About/>},
+    { path: '/about-us', element: <AboutUs />},
     { path: '*', element: <div>Page not found</div> },
     { path:'/signup',element: <SignUp />},
   ];
