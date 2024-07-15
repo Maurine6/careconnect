@@ -6,7 +6,7 @@ import AppointmentList from "./AppointmentList";
 
 function Access(){
     return(
-        <div className="access">
+        <div className="access">        
             <AddNewService/>
             <br/><br/>
             <Services/>
