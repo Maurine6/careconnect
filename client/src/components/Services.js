@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import './Services.css';
 
 function Services() {
   const [services, setServices] = useState([]);
@@ -21,6 +22,7 @@ function Services() {
           setServices(services.filter((service) => service.id !== id));
           if (selectedService && selectedService.id === id) {
             setSelectedService(null);
+            setSelectedDropdownService("");
           }
         } else {
           throw new Error("Failed to delete service");
@@ -35,7 +37,7 @@ function Services() {
     updatedFields.description = prompt("Enter updated description:", selectedService.description);
     updatedFields.price = prompt("Enter updated price:", selectedService.price);
 
-    if (!updatedFields.name && !updatedFields.price) {
+    if (!updatedFields.name && !updatedFields.description && !updatedFields.price) {
       return;
     }
 
@@ -74,9 +76,9 @@ function Services() {
   }
 
   return (
-    <div>
+    <div className="services-container">
       <div className="dropdown">
-        <h2> Services List</h2>
+        <h2>Services List</h2>
         <select value={selectedDropdownService} onChange={handleDropdownChange}>
           <option value="">Select a service</option>
           {services.map((service) => (
@@ -89,10 +91,12 @@ function Services() {
       {selectedService && (
         <div className="details">
           <h3>{selectedService.name}</h3>
-          <p>Description: {selectedService.description}</p>
-          <p>Price: {selectedService.price}</p>
-          <button onClick={() => handleUpdate(selectedService.id)}>Update</button>
-          <button onClick={() => handleDelete(selectedService.id)}>Delete</button>
+          <p><strong>Description:</strong> {selectedService.description}</p>
+          <p><strong>Price:</strong> ${selectedService.price}</p>
+          <div className="button-group">
+            <button onClick={() => handleUpdate(selectedService.id)}>Update</button>
+            <button onClick={() => handleDelete(selectedService.id)}>Delete</button>
+          </div>
         </div>
       )}
     </div>
