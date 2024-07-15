@@ -46,7 +46,14 @@
   font-family: 'Times New Roman', Times, serif;
   position: absolute;
   background-color: bisque;
+  width: 2000px;
+  height: 1200px;
  
+}
+.card{
+  height: 250px;
+  width: 300px;
+
 }
 .newappointment{
   align-self: center;

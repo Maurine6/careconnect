@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './navbar';
 
 const NewAppointment = () => {
   const navigate = useNavigate();
@@ -39,18 +40,18 @@ const NewAppointment = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!accessToken) {
       console.error('Access token not found. Please log in first.');
       return;
     }
-
+  
     // Format the date before sending
     const formattedData = {
       ...appointmentData,
       appointment_date: formatDate(appointmentData.appointment_date),
     };
-
+  
     try {
       const response = await fetch('/appointments', {
         method: 'POST',
@@ -60,11 +61,11 @@ const NewAppointment = () => {
         },
         body: JSON.stringify(formattedData),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.status}`);
       }
-
+  
       const data = await response.json();
       console.log('Appointment created:', data);
       navigate('/home');
@@ -93,6 +94,7 @@ const NewAppointment = () => {
 
   return (
     <div className='newappointment'>
+      <Navbar/>
       <h2>Create New Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div>

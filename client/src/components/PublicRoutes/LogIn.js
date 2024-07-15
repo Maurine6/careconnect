@@ -1,6 +1,7 @@
 //login
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../navbar";
 
 function LogIn({setLoggedIn, loggedIn}) {
   const Navigate = useNavigate()
@@ -42,6 +43,7 @@ function LogIn({setLoggedIn, loggedIn}) {
 console.log(loggedIn)
   return (
     <div className="login">
+      <Navbar/>
       <form onSubmit={handleSubmit}>
         <h1>Please Login to Your Account.</h1>
         <div className="mb-3">

@@ -40,7 +40,7 @@ function Services() {
     }
 
     try {
-      const response = await fetch(`/services_data/${id}`, {
+      const response = await fetch(`/service_data/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -50,11 +50,11 @@ function Services() {
 
       if (response.ok) {
         console.log("Service updated successfully!");
-        fetch(`/services_data/${id}`)
+        fetch(`/service_data/${id}`)
           .then((r) => r.json())
           .then((updatedService) => {
             setSelectedService(updatedService);
-            fetch("/services_data")
+            fetch("/service_data")
               .then((r) => r.json())
               .then(setServices);
           });
@@ -91,7 +91,6 @@ function Services() {
           <h3>{selectedService.name}</h3>
           <p>Description: {selectedService.description}</p>
           <p>Price: {selectedService.price}</p>
-          <button onClick={() => handleUpdate(selectedService.id)}>Update</button>
           <button onClick={() => handleDelete(selectedService.id)}>Delete</button>
         </div>
       )}

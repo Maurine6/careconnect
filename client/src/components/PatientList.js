@@ -70,7 +70,7 @@ function PatientList() {
 
   return (
     <div className="patients">
-      <section className="container">
+      <section className="dropdown">
         <h2>Patients List</h2>
         {/* Dropdown to select patients */}
         <select onChange={(e) => handlePatientSelect(e.target.value)}>
