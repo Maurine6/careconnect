@@ -1,6 +1,7 @@
 //newservice
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './NewService.css'
 
 function AddNewService() {
   const [name, setName] = useState('');
@@ -39,41 +40,37 @@ function AddNewService() {
 
   return (
     <div className='newservice'>
-        <h1>Add new service</h1>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-            <label htmlFor="name">Name:</label>
-                <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                style={{ width: '200px', height: '30px' }}
-                />
-
-            <label htmlFor="description">Description:</label>
-                <textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-                style={{ width: '200px', height: '30px' }}
-                />
-            <label htmlFor="price">Price:</label>
-                <input
-                type="text"
-                id="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-                style={{ width: '200px', height: '30px' }}
-                />
-
-            <button type="submit">Add Service</button>
-        </form>
+      <h1>Add new service</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+  
+        <label htmlFor="description">Description:</label>
+        <textarea
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+  
+        <label htmlFor="price">Price:</label>
+        <input
+          type="text"
+          id="price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required
+        />
+  
+        <button type="submit">Add Service</button>
+      </form>
     </div>
-
-
   );
 }
 

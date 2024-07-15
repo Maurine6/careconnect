@@ -1,10 +1,13 @@
 // src/components/AboutUs.js
 
 import React from 'react';
+import Navbar from '../navbar';
 
 
 const AboutUs = () => {
   return (
+    <div>
+      <Navbar/>
     <div className="about-us-container">
       <h1>About Us</h1>
       <p>
@@ -16,6 +19,7 @@ const AboutUs = () => {
       </p>
       <div className="team-image">
         <img src="path-to-team-image.jpg" alt="Our Team" />
+      </div>
       </div>
     </div>
   );
