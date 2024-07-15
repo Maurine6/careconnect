@@ -20,3 +20,43 @@
   height: 50vh;
   border-radius: 10px;
 }
+
+.details-container {
+  position:absolute;
+  margin-top: 20px;
+  margin-right: 750px;
+  top: 50px;
+  right:0%;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 400px;
+  color: #111111;
+  
+
+}
+.bg{
+  height: 500px;
+}
+.bg-image{
+  height: 700px;
+  width: 1900px;
+}
+.access{
+  align-items: center;
+  font-family: 'Times New Roman', Times, serif;
+  position: absolute;
+  background-color: bisque;
+  width: 2000px;
+  height: 1200px;
+ 
+}
+.card{
+  height: 250px;
+  width: 300px;
+
+}
+.newappointment{
+  align-self: center;
+}
+
+
