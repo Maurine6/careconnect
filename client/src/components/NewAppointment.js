@@ -95,54 +95,58 @@ const NewAppointment = () => {
 
   return (
     <>
-    <Navbar />
-    <div className='newappointment'>
-      <h2> Book Appointment</h2>
-      <p> Provide your details and select your preffered time and day</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="reason">Reason for Appointment:</label>
-          <br/><br/>
-          <input
-            type="text"
-            id="reason"
-            name="reason"
-            value={appointmentData.reason}
-            onChange={handleChange}
-          />
+      <Navbar />
+      <div className='newappointment'>
+        <div className="left-side">
+          <h2>Book Appointment</h2>
+          <p>Provide your details and select your preferred time and day</p>
+          <form onSubmit={handleSubmit} className="appointment-form">
+            <div className="form-group">
+              <label htmlFor="reason">Reason for Appointment:</label>
+              <input
+                type="text"
+                id="reason"
+                name="reason"
+                value={appointmentData.reason}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="appointment_date">Appointment Date:</label>
+              <input
+                type="datetime-local"
+                id="appointment_date"
+                name="appointment_date"
+                value={formatDateForInput(appointmentData.appointment_date)}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="doctor_id">Doctor:</label>
+              <select
+                id="doctor_id"
+                name="doctor_id"
+                value={appointmentData.doctor_id}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a doctor</option>
+                {doctors.map((doctor) => (
+                  <option key={doctor.id} value={doctor.id}>
+                    {`${doctor.first_name} ${doctor.last_name} - ${doctor.specialization}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type="submit" className="btn-create-appointment" style={{ backgroundColor: "#00008B", color: "#fff" }}>Book Appointment</button>
+          </form>
         </div>
-        <div>
-          <label htmlFor="appointment_date">Appointment Date:</label>
-          <br/><br/>
-          <input
-            type="datetime-local"
-            id="appointment_date"
-            name="appointment_date"
-            value={formatDateForInput(appointmentData.appointment_date)}
-            onChange={handleChange}
-          />
+        <div className="right-side">
+          <img src="/pexels-fr3nks-305568.jpg" alt="Appointment Image" className="appointment-image" />
         </div>
-        <div>
-          <label htmlFor="doctor_id">Doctor:</label>
-          <br/><br/>
-          <select
-            id="doctor_id"
-            name="doctor_id"
-            value={appointmentData.doctor_id}
-            onChange={handleChange}
-          >
-            <option value="">Select a doctor</option>
-            {doctors.map((doctor) => (
-              <option key={doctor.id} value={doctor.id}>
-                {`${doctor.first_name} ${doctor.last_name} - ${doctor.specialization}`}
-              </option>
-            ))}
-          </select>
-        </div>
-        <br/><br/>
-        <button type="submit">Create Appointment</button>
-      </form>
-    </div>
+      </div>
     </>
   );
 };
