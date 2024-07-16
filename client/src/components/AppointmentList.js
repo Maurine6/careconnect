@@ -18,6 +18,27 @@ function AppointmentList() {
     const selected = appointments.find(appointment => appointment.id === parseInt(selectedId));
     setSelectedAppointment(selected);
   }
+  
+  function handleDelete() {
+    if (selectedAppointment) {
+      fetch(`/appointments/${selectedAppointment.id}`, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (response.ok) {
+            setAppointments(appointments.filter(a => a.id !== selectedAppointment.id));
+            setSelectedAppointment(null);
+            alert("Appointment deleted successfully");
+          } else {
+            throw new Error('Failed to delete appointment');
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting appointment:", error);
+          alert("Failed to delete appointment");
+        });
+    }
+  }
 
   return (
     <div className="appointment-list">
@@ -40,6 +61,7 @@ function AppointmentList() {
             <p><strong>Status:</strong> {selectedAppointment.status}</p>
             <p><strong>Date:</strong> {new Date(selectedAppointment.appointment_date).toLocaleString()}</p>
             <p><strong>Reason:</strong> {selectedAppointment.reason}</p>
+            <button onClick={handleDelete}>Delete Appointment</button>
         </section>
       )}
     </div>

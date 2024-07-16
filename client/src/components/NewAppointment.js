@@ -15,7 +15,7 @@ const NewAppointment = () => {
   });
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('accessToken');
+    const storedToken = localStorage.getItem('access_token');
     setAccessToken(storedToken);
 
     // Fetch doctors

@@ -13,9 +13,6 @@ function Navbar() {
       <ul class="navbar-nav ms-auto"> <li class="nav-item">
           <Link to="/" class="nav-link active">Home</Link> </li>
         <li class="nav-item">
-          <Link to="/services_offered" class="nav-link">Services Offered</Link>
-        </li>
-        <li class="nav-item">
           <Link to="/login" class="nav-link">Login</Link>
         </li>
         <li class="nav-item">
@@ -23,6 +20,9 @@ function Navbar() {
         </li>
         <li class="nav-item">
           <Link to="/about-us" class="nav-link">About Us</Link>
+        </li>
+        <li class="nav-item">
+          <Link to="/profile" class="nav-link">Patient Profile</Link>
         </li>
       </ul>
     </div>

@@ -5,7 +5,7 @@ import Navbar from "../navbar";
 import { Link } from "react-router-dom";
 import "./LogIn.css";
 
-function LogIn({setLoggedIn, loggedIn}) {
+function AdminLogIn({setLoggedIn, loggedIn}) {
   const Navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: "",
@@ -35,7 +35,7 @@ function LogIn({setLoggedIn, loggedIn}) {
         localStorage.setItem('access_token', data.access_token);
         await resetLoggedIn(true);
         console.log(data,response.status,loggedIn);
-        Navigate('/about-us')
+        Navigate('/services_offered')
       }
     }
     catch (error) {
@@ -72,11 +72,10 @@ console.log(loggedIn)
           />
         </div>
         <button type="submit" className="btn btn-info" style={{ backgroundColor: "#00008B", color: "#fff" }}>Log In</button>
-        <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
       </form>
       </div>
     </div>
   );
 }
 
-export default LogIn;
+export default AdminLogIn;

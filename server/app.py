@@ -261,6 +261,12 @@ class AppointmentByID(Resource):
     def get(self, appointment_id):
         appointment = Appointment.query.get_or_404(appointment_id)
         return appointment.to_dict(), 200
+    def delete(self, appointment_id):
+        appointment = Appointment.query.get_or_404(appointment_id)
+        db.session.delete(appointment)
+        db.session.commit()
+
+        return {"message": "Appointment deleted successfully"}, 200
 
 
 class BillResource(Resource):

@@ -7,6 +7,9 @@ const Home = () => {
   const routeChange = ()=>{
     Navigate('/login')
   }
+  const adminChange = ()=>{
+    Navigate('/admin')
+  }
   return (
     <>   
     <Navbar />
@@ -14,7 +17,8 @@ const Home = () => {
       <header className="hero-section">
         <h1>Welcome to Careconnect</h1>
         <p>Your comprehensive healthcare facility management system.</p>
-        <button className="cta-button" onClick={routeChange}>Get Started</button>
+        <button className="cta-button" onClick={routeChange}>Patient</button>
+        <button type="button" class="btn btn-secondary" onClick={adminChange}>Admin</button>
       </header>
       <section className="features-section">
         <div className="feature">

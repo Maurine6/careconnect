@@ -1,6 +1,7 @@
 import React from "react";
 import "./About.css";
 import Navbar from "./navbar";
+import { Link } from "react-router-dom";
 
 const About = () => {
     return (
@@ -28,6 +29,7 @@ const About = () => {
                     <li className="service-item">Pharmacy</li>
                 </ul>
             </div>
+            <button className="cta-button" ><p>  <Link to="/my_data">Book Appointment</Link></p></button>
         </div>
     );
 };

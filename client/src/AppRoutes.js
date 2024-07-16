@@ -18,6 +18,8 @@ import Patient_home_Component from './components/PrivateRoutes/patient_data';
 import Access from './components/Acess';
 import NewAppointment from './components/NewAppointment';
 import About from './components/About';
+import PatientDetails from './components/PatientData';
+import AdminLogIn from './components/PublicRoutes/AdminLogIn';
 
 
 const AppRoutes = () => {
@@ -60,6 +62,9 @@ const AppRoutes = () => {
     { path: '/about-us', element: <About />},
     { path: '*', element: <div>Page not found</div> },
     { path:'/signup',element: <SignUp />},
+    {path:'/profile',element:<PatientDetails/>},
+    {path:'/admin',element:<AdminLogIn setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
+
   ];
 
   const renderPublicRoutes = (routes) =>
