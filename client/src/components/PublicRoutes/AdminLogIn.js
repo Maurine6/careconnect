@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../navbar";
 import { Link } from "react-router-dom";
-import "./LogIn.css";
+
 
 function AdminLogIn({setLoggedIn, loggedIn}) {
   const Navigate = useNavigate()
