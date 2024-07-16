@@ -10,7 +10,7 @@ const About = () => {
             <h1 className="about-title">CareConnect</h1>
             <div className="about-content">
                 <p>
-                    CareConnect is a comprehensive healthcare facility dedicated to providing high-quality medical services to our patients. Our mission is to modernize healthcare operations and improve patient care through innovative solutions.
+                    Careconnect is a comprehensive healthcare facility dedicated to providing high-quality medical services to our patients. Our mission is to modernize healthcare operations and improve patient care through innovative solutions.
                 </p>
                 <p>
                     We offer a wide range of services designed to meet the diverse needs of our community. Our team of experienced healthcare professionals is committed to delivering personalized care and ensuring that every patient has a positive experience.
