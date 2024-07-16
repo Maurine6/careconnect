@@ -4,14 +4,7 @@
   --link: #61dafb;
   --text: hsla(0, 0%, 100%, 0.88);
 }
-.signup{
-  margin: 2rem auto;
-  padding: 1rem 2rem;
-  align-items: center;
-  width: 400px;
-  height: 50vh;
-  border-radius: 10px;
-}
+
 .login{
   margin: 2rem auto;
   padding: 1rem 2rem;
@@ -44,7 +37,7 @@
 .access{
   font-family: 'Times New Roman', Times, serif;
   position: absolute;
-  background-color: rgb(133, 122, 238);
+  background-color: rgb(65, 45, 245);
   width: 2000px;
   height: 1200px;
  

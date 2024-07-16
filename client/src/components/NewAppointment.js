@@ -97,7 +97,8 @@ const NewAppointment = () => {
     <>
     <Navbar />
     <div className='newappointment'>
-      <h2>Create New Appointment</h2>
+      <h2> Book Appointment</h2>
+      <p> Provide your details and select your preffered time and day</p>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="reason">Reason for Appointment:</label>

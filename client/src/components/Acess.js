@@ -4,6 +4,7 @@ import PatientList from "./PatientList";
 import AddNewService from "./NewService";
 import AppointmentList from "./AppointmentList";
 import Navbar from "./navbar";
+import "./Acess.css";
 
 function Access() {
   // State to manage which component to display
@@ -31,8 +32,10 @@ function Access() {
   };
 
   return (
-    <div className="access">
+    <div>
       <Navbar />
+      <p style={{ fontWeight: "bold", color: "red" }}>For Admins only. Manage All Our Services Here</p>
+      <div className="access">
       <div className="sidebar">
         <button onClick={() => handleComponentClick("AddNewService")}>
           Add New Service
@@ -49,6 +52,7 @@ function Access() {
       </div>
       <div className="content">
         {renderContent()}
+      </div>
       </div>
     </div>
   );

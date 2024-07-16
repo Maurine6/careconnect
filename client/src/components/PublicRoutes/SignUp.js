@@ -163,9 +163,9 @@ function SignUp() {
           <input type="password" className="form-control" placeholder="Enter your password" onChange={handleChange} name="password" />
           {errors.password && <div className="error">{errors.password}</div>}
         </div>
-        <button type="submit" className="btn btn-info">Register</button>
+        <button type="submit" className="btn btn-info" style={{ backgroundColor: "#00008B", color: "#fff" }}>Register</button>
+        <p>Already have an account. <Link to="/login">LogIn</Link></p>
       </form>
-      <p>Already have an account. <Link to="/login">LogIn</Link></p>
       </div>
     </div>
   );

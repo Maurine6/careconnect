@@ -71,9 +71,9 @@ console.log(loggedIn)
             name="password"
           />
         </div>
-        <button type="submit" className="btn btn-info">Log In</button>
+        <button type="submit" className="btn btn-info" style={{ backgroundColor: "#00008B", color: "#fff" }}>Log In</button>
+        <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
       </form>
-      <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
       </div>
     </div>
   );
