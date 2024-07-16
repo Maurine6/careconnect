@@ -20,6 +20,7 @@ import NewAppointment from './components/NewAppointment';
 import About from './components/About';
 import PatientDetails from './components/PatientData';
 import AdminLogIn from './components/PublicRoutes/AdminLogIn';
+import OurServices from './components/OurServices';
 
 
 const AppRoutes = () => {
@@ -63,6 +64,7 @@ const AppRoutes = () => {
     { path: '*', element: <div>Page not found</div> },
     { path:'/signup',element: <SignUp />},
     {path:'/profile',element:<PatientDetails/>},
+    {path:'/our-services',element:<OurServices/>},
     {path:'/admin',element:<AdminLogIn setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
 
   ];

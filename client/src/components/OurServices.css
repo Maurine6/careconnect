@@ -1,0 +1,83 @@
+/* OurServices.css - Styles for OurServices component */
+
+.services-cont {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .overview {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .overview-title {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  
+  .overview-description {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .service-list {
+    width: 45%;
+  }
+  
+  .service {
+    cursor: pointer;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+  }
+  
+  .service:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .service.selected {
+    background-color: #f0f0f0;
+  }
+  
+  .service-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .service-name {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: darkblue;
+  }
+  
+  .service-price {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .separator {
+    height: 1px;
+    background-color: #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .image-section {
+    width: 45%;
+  }
+  
+  .hospital-image {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  

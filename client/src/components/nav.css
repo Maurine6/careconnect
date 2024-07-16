@@ -1,0 +1,14 @@
+.oval-button {
+    background-color: darkblue;
+    color: white;
+    border: none;
+    padding: 0px 12px; /* Adjust padding to control button size */
+    border-radius: 20px; /* Make it oval by setting border-radius */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .oval-button:hover {
+    background-color: #003366; /* Darken the color on hover */
+  }
+  

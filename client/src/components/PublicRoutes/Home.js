@@ -17,8 +17,9 @@ const Home = () => {
       <header className="hero-section">
         <h1>Welcome to Careconnect</h1>
         <p>Your comprehensive healthcare facility management system.</p>
+        <p>Get started As:</p>
         <button className="cta-button" onClick={routeChange}>Patient</button>
-        <button type="button" class="btn btn-secondary" onClick={adminChange}>Admin</button>
+        <button type="button" className="cta-button" onClick={adminChange}>Admin</button>
       </header>
       <section className="features-section">
         <div className="feature">

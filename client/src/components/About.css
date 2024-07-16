@@ -1,34 +1,104 @@
 .about-container {
-    background: linear-gradient(to right, #f8f9fa, #e9ecef);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 1600px;
+  height: 700px;
+}
+
+.about-title {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2.5rem;
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap; /* Wrap content to next line if needed */
+  justify-content: space-between; /* Space between the two main sections */
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.services-section {
+  flex: 1;
+  margin-right: 20px; /* Adjust spacing between sections */
+}
+
+.services-title {
+  background-image: url(''); /* Replace with your background image */
+  background-size: cover;
+  background-position: center;
+  padding: 40px;
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.services-title p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.services-offered {
+  padding: 20px;
+}
+
+.services-offered h2 {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+.service-item::before {
+  content: "✔ ";
+  color: #28a745;
   }
-  
-  .about-title {
-    color: #343a40;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .about-content {
-    color: #495057;
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
-  
-  .services-list {
-    margin-top: 20px;
-    padding-left: 20px;
-  }
-  
-  .service-item {
-    margin-bottom: 10px;
-    color: #007bff;
-  }
-  
-  .service-item::before {
-    content: "✔ ";
-    color: #28a745;
-  }
+.service-item {
+  margin-bottom: 10px;
+  color: #007bff;
+  align-items: center;
+}  
+
+.services-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.service-item {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.changing-pictures {
+  flex: 1;
+  max-width: 40%; /* Ensure the image section takes up to 50% of the container */
+  height: 300px; /* Maintain aspect ratio */
+  margin-left: auto; /* Push to right to separate from service section */
+}
+
+.changing-picture {
+  position: relative; /* Ensure images stay within their container */
+  overflow: hidden; /* Hide any overflow */
+  border-radius: 10px; /* Rounded corners for images */
+}
+
+.changing-picture img {
+  width: 100%; /* Ensure images take up full width of container */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.button {
+  background-color: rgb(139, 44, 0);
+    color: white;
+    border: none;
+    padding: 16px 25px; /* Adjust padding to control button size */
+    border-radius: 20px; /* Make it oval by setting border-radius */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+}
+
+.button:hover {
+  background-color: #003366;
+}
+
+.button a {
+  color: inherit;
+  text-decoration: none;
+}
