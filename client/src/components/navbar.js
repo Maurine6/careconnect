@@ -19,7 +19,7 @@ function Navbar() {
           <Link to="/signup" class="nav-link">Signup</Link>
         </li>
         <li class="nav-item">
-          <Link to="/about-us" class="nav-link">About Us</Link>
+          <Link to="/about-us" class="nav-link">Our Services</Link>
         </li>
         <li class="nav-item">
           <Link to="/profile" class="nav-link">Patient Profile</Link>

@@ -7,7 +7,7 @@ const About = () => {
     return (
         <div className="about-container">
             <Navbar/>
-            <h1 className="about-title">About CareConnect</h1>
+            <h1 className="about-title">CareConnect</h1>
             <div className="about-content">
                 <p>
                     CareConnect is a comprehensive healthcare facility dedicated to providing high-quality medical services to our patients. Our mission is to modernize healthcare operations and improve patient care through innovative solutions.
