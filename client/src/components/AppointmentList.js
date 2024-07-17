@@ -61,7 +61,7 @@ function AppointmentList() {
             <p><strong>Status:</strong> {selectedAppointment.status}</p>
             <p><strong>Date:</strong> {new Date(selectedAppointment.appointment_date).toLocaleString()}</p>
             <p><strong>Reason:</strong> {selectedAppointment.reason}</p>
-            <button onClick={handleDelete}>Delete Appointment</button>
+            <button onClick={handleDelete}>Cancel Appointment</button>
         </section>
       )}
     </div>

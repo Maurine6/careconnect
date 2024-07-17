@@ -102,7 +102,7 @@ const NewAppointment = () => {
           <p>Provide your details and select your preferred time and day</p>
           <form onSubmit={handleSubmit} className="appointment-form">
             <div className="form-group">
-              <label htmlFor="reason">Reason for Appointment:</label>
+              <label htmlFor="reason" >Reason for Appointment:</label>
               <input
                 type="text"
                 id="reason"
