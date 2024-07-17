@@ -35,7 +35,7 @@ function Navbar() {
             </li>
             <li className="nav-item ms-auto">
               <button className="oval-button" style={{ backgroundColor: "#00008B", color: "#fff" }}>
-                <Link to="/my_data" className="nav-link" style={{ color: "#fff", textDecoration: 'none' }}>Book Appointment</Link>
+                <Link to="/login" className="nav-link" style={{ color: "#fff", textDecoration: 'none' }}>Book Appointment</Link>
               </button>
             </li>
           </ul>

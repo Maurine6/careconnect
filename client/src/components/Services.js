@@ -24,48 +24,12 @@ function Services() {
             setSelectedService(null);
             setSelectedDropdownService("");
           }
+          alert("Service deleted successfully");
         } else {
           throw new Error("Failed to delete service");
         }
       })
       .catch((error) => console.error("Error deleting service:", error));
-  }
-
-  async function handleUpdate(id) {
-    const updatedFields = {};
-    updatedFields.name = prompt("Enter updated name:", selectedService.name);
-    updatedFields.description = prompt("Enter updated description:", selectedService.description);
-    updatedFields.price = prompt("Enter updated price:", selectedService.price);
-
-    if (!updatedFields.name && !updatedFields.description && !updatedFields.price) {
-      return;
-    }
-
-    try {
-      const response = await fetch(`/service_data/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedFields),
-      });
-
-      if (response.ok) {
-        console.log("Service updated successfully!");
-        fetch(`/service_data/${id}`)
-          .then((r) => r.json())
-          .then((updatedService) => {
-            setSelectedService(updatedService);
-            fetch("/service_data")
-              .then((r) => r.json())
-              .then(setServices);
-          });
-      } else {
-        throw new Error("Failed to update service");
-      }
-    } catch (error) {
-      console.error("Error updating service:", error);
-    }
   }
 
   function handleDropdownChange(event) {
@@ -94,7 +58,6 @@ function Services() {
           <p><strong>Description:</strong> {selectedService.description}</p>
           <p><strong>Price:</strong> ${selectedService.price}</p>
           <div className="button-group">
-            <button onClick={() => handleUpdate(selectedService.id)}>Update</button>
             <button onClick={() => handleDelete(selectedService.id)}>Delete</button>
           </div>
         </div>

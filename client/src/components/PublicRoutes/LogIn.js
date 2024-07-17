@@ -35,6 +35,7 @@ function LogIn({setLoggedIn, loggedIn}) {
         localStorage.setItem('access_token', data.access_token);
         await resetLoggedIn(true);
         console.log(data,response.status,loggedIn);
+        alert("Login was successfull");
         Navigate('/about-us')
       }
     }

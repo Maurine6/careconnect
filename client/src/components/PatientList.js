@@ -25,6 +25,7 @@ function PatientList() {
           setSelectedPatient(null);
           setSelectedDropdownPatient("");
         }
+        alert("Patient deleted successfully");
       }
     });
   }
@@ -51,6 +52,7 @@ function PatientList() {
 
       if (response.ok) {
         console.log("Patient updated successfully!");
+        alert("Patient details updated successfully");
         fetch(`/patient/${id}`)
           .then((r) => r.json())
           .then((updatedPatient) => {

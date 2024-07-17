@@ -57,6 +57,7 @@ function SignUp() {
         console.error(error.message);
         // Handle errors
       }
+      alert("You're now registered. Please login");
     } else {
       console.log("Form validation failed");
     }

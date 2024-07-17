@@ -31,6 +31,7 @@ function AddNewService() {
     .then(response => response.json())
     .then(data => {
       console.log('Service added:', data);
+      alert("Service added successfully");
       navigate('/services_offered')
     })
     .catch(error => {
