@@ -59,6 +59,7 @@ function SignUp() {
         console.error(error.message);
         // Handle errors
       }
+      alert("Account created successfully.");
       Navigate('/login')
     } else {
       console.log("Form validation failed");
