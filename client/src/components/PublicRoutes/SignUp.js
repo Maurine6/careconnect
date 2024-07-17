@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Navbar from "../navbar";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 function SignUp() {
+  const Navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     first_name: '',
@@ -57,7 +59,7 @@ function SignUp() {
         console.error(error.message);
         // Handle errors
       }
-      alert("You're now registered. Please login");
+      Navigate('/login')
     } else {
       console.log("Form validation failed");
     }
