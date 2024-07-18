@@ -1,11 +1,16 @@
 # CARECONNECT APP.
+![CARECONNECT-LOGO](client/public/golden-swing-1964101_1280.png)
 
-## Learning Goals
+## INTRODUCTION
 
-- Discuss the basic directory structure of a full-stack Flask/React application.
-- Carry out the first steps in creating your Phase 4 project.
+CareConnect App is an that can be implemented in any comprehensive healthcare facility dedicated to providing high-quality medical services to patients. Our mission is to modernize healthcare operations and improve patient care through innovative solutions and promote good image and integrity to all healthcare facilities.
 
----
+## PROBLEM STATEMENT.
+Many healthcare facilities struggle with efficient management of patient information, appointments, and medical records. Patients are also wary of hidden fees in hospitals and desire a way to see all services received and current bill.This project provides a way for patients to track their bill.
+Manual processes are often time-consuming, error-prone, and can lead to miscommunication between departments. This results in longer wait times for patients, increased administrative burden on staff, and potential risks to patient care quality.
+
+## THE SOLUTION.
+
 
 ## Introduction
 
