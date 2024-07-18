@@ -1,5 +1,5 @@
 # CARECONNECT APP.
-![CARECONNECT-LOGO](client/public/golden-swing-1964101_1280.png)
+<img src="client/public/golden-swing-1964101_1280.png" alt="CARECONNECT-LOGO" width="100" height="40">
 
 ## INTRODUCTION
 
