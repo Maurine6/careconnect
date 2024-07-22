@@ -1,21 +1,52 @@
-# CARECONNECT APP.
+# CARECONNECT APP
+
 <p align="center">
-  <img src="client/public/golden-swing-1964101_1280.png" alt="CARECONNECT-LOGO"  po  width="300" height="200">
-</p>  
+  <img src="client/public/golden-swing-1964101_1280.png" alt="CARECONNECT-LOGO" width="300" height="200">
+</p>
 
-## INTRODUCTION
-
-CareConnect  is a web application designed to connect healthcare providers i.e hospitals with patients efficiently. It facilitates patient registration, appointment scheduling, service management and medical record management. This README provides an overview of the project, installation instructions, usage guidelines and development notes.
-
-## PROBLEM STATEMENT.
-Many healthcare facilities struggle with efficient management of patient information, appointments, and medical records. Patients are also wary of hidden fees in hospitals and desire a way to see all services received and current bill.This project provides a way for patients to track their bill.
-Manual processes are often time-consuming, error-prone, and can lead to miscommunication between departments. This results in longer wait times for patients, increased administrative burden on staff, and potential risks to patient care quality.
-
-## THE SOLUTION.
-We came up as a team to build an easy to use and efficient Careconnect App which registers and stores patient records securely, allows patient to book appointments and can view their records on their patient profile once logged in. The app allows patients to view available services and their prices and plan well before visiting the facility. Through appointments the hospitals are able to manage and schedule time and their staffs accordingly without any confusion. The app also allows admins to view or cancel appointments; add, view or delete services whenever; add, update, view and delete patient details as needed.
+## Table of Contents
+- [Introduction](#introduction)
+- [Problem Statement](#problem-statement)
+- [Key Features](#key-features)
+- [Launching](#launching)
+  - [Endpoints](#endpoints)
+- [Prerequisites](#prerequisites)
+- [Installations](#installations)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+- [Running CareConnect Locally](#running-careconnect-locally)
+- [Usage](#usage)
+- [Development Notes](#development-notes)
+- [Security Considerations](#security-considerations)
+- [MVPs](#mvps)
+  - [MVP 1: Service Management](#mvp-1-service-management)
+  - [MVP 2: Patient Management](#mvp-2-patient-management)
+  - [MVP 3: Appointment Management](#mvp-3-appointment-management)
+  - [MVP 4: Patient Login](#mvp-4-patient-login)
+  - [Stretch MVPs](#stretch-mvps)
+    - [MVP 5: Staff Management](#mvp-5-staff-management)
+    - [MVP 6: Billing Services](#mvp-6-billing-services)
+- [Technologies Used](#technologies-used)
+- [License](#license)
+- [Contributors](#contributors)
 
 
 ## Features
+- ## User Roles
+The app's homepage requests a person to define themselves either as a patient or an admin(Healthcare provider).
+  - ## As a Patient:
+Can view available services and their prices, register and login, book appointments and view medical records.
+  - ## As an Admin: 
+Can manage services, appointments, and update patients records.
+
+CareConnect App is a comprehensive healthcare facility application dedicated to providing high-quality medical services to patients. Our mission is to modernize healthcare operations, improve patient care through innovative solutions, and promote a good image and integrity for all healthcare facilities.
+
+## Problem Statement
+
+Many healthcare facilities struggle with efficient management of patient information, appointments, and medical records. Patients are also wary of hidden fees in hospitals and desire a way to see all services received and their current bill. This project provides a way for patients to track their bills. Manual processes are often time-consuming, error-prone, and can lead to miscommunication between departments. This results in longer wait times for patients, increased administrative burden on staff, and potential risks to patient care quality.
+
+## Key Features
+
 - ## User Roles
 The app's homepage requests a person to define themselves either as a patient or an admin(Healthcare provider).
   - ## As a Patient:
@@ -41,6 +72,7 @@ Can manage services, appointments, and update patients records.
 - ## Admin panel:
   - Admin dashboard for managing patient accounts, appointments and services.
 
+## Launching
 ## ENDPOINTS:
 1. ## User Authentication and Authorization Endpoints
 Purpose: Handles user registration, login and logout.
@@ -181,7 +213,6 @@ Purpose: Handles CRUD operations related to Services.
 
 5. ## Access the application:
 - Open your web browser and go to 'http://localhost: 3000' to use Careconnect.
-
 ## Usage
 - ## Patient Workflow:
   1. Register or login.
@@ -206,43 +237,88 @@ Purpose: Handles CRUD operations related to Services.
   - Use of JWT for secure authentication and authorization.
   - Input validation and sanitization to prevent security vulnerabilities.
 
+
+## MVPs
+
+### MVP 1: Service Management
+
+As a user (with credentials):
+- I should be able to get a list of all services offered by the hospital.
+- I should be able to delete a hospital service if it is no longer offered.
+- I should be able to add services offered by the hospital.
+
+#### Service List
+![Service List](server/Readme/servicesList.png)
+
+#### Add Services
+![Add Services](server/Readme/serviceList.png)
+
+### MVP 2: Patient Management
+
+Admin should be able to:
+- See all patients.
+- Update patient details.
+- Delete a patient.
+- Add a patient with all their details.
+
+#### Patient Management Section
+![Patient Management](server/Readme/patientData.png)
+
+### MVP 3: Appointment Management
+
+As a user (with credentials):
+- I should be able to create an appointment.
+- I should be able to delete an appointment.
+- I should be able to view appointments.
+
+#### Managing Appointments
+![Managing Appointments](server/Readme/Appointment.png)
+
+### MVP 4: Patient Login
+
+- Login page for patients using credentials provided in their hospital account.
+
+#### Logging In
+![Logging In](server/Readme/login.png)
+
+### Stretch MVPs
+
+#### MVP 5: Staff Management
+
+- Based on accrued appointments, hospital staff (e.g., doctors) will be able to know what patients to expect and plan accordingly.
+
+#### MVP 6: Billing Services
+
+As a user:
+- I should be able to view a list of all services I have received and my current bill.
+
 ## Technologies Used
-- ## Frontend:
-  - React.js 
-  - CSS and bootstrap for frontend styling.
 
-- ## Backend:
-  - Python for  server-side runtime environment
-  - Flask- sqlalchemy for building the RESTful API
-  - Flask database using sqlalchemy ORM
-  - Authentication:
-  - JSON Web Tokens (JWT) for secure authentication
-  - flask-bcrypt for password hashing
+### Backend
+- **Language**: Python, JavaScript (Node.js)
+- **Framework**: Flask
+- **Database**: MySQL
+- **Authentication**: JWT (JSON Web Tokens) or OAuth
 
-- ## Deployment:
-Render for  deployment
+### Frontend
+- **Language**: JavaScript
+- **Framework**: React
+- **Routing**: React Router
 
-- ## Development Tools:
-  - Git for version control
-  - GitHub for repository hosting and collaboration
-  - VS Code as the preferred IDE
+### Development Tools
+- **Version Control**: Git and GitHub
+- **Package Management**: npm
+- **Build Tools**: Create React App
 
+## License
 
- ## License
-The content of this project is licensed under the MIT license
-Copyright (c) 2018.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+## Contributors
 
-
-
-
-
-
- 
-        
-
-
-
-
-
+- [Maurine6](https://github.com/Maurine6)
+- [SC-Kenduiwa](https://github.com/SC-Kenduiwa)
+- [macharra](https://github.com/macharra)
+- [0097eo](https://github.com/0097eo)
+- [Ephy](https://github.com/Ephymuiruri)
 
