@@ -1,0 +1,47 @@
+.patient-details {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .patient-details h2 {
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+  }
+
+  .personal-info, .appointments, .bills {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .patient-details h3 {
+    color: #007bff;
+    margin-top: 0;
+  }
+
+  .patient-details p {
+    margin: 10px 0;
+  }
+
+  .patient-details strong {
+    font-weight: bold;
+    color: #555;
+  }
+
+  .patient-details ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .patient-details li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
