@@ -31,7 +31,13 @@
 - [Contributors](#contributors)
 
 
-## Introduction
+## Features
+- ## User Roles
+The app's homepage requests a person to define themselves either as a patient or an admin(Healthcare provider).
+  - ## As a Patient:
+Can view available services and their prices, register and login, book appointments and view medical records.
+  - ## As an Admin: 
+Can manage services, appointments, and update patients records.
 
 CareConnect App is a comprehensive healthcare facility application dedicated to providing high-quality medical services to patients. Our mission is to modernize healthcare operations, improve patient care through innovative solutions, and promote a good image and integrity for all healthcare facilities.
 
