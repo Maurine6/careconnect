@@ -10,6 +10,9 @@ from datetime import datetime, timedelta
 from config import app,db,api
 from models import Admin, Patient
 
+
+
+
 # Views go here!
 class checkSession(Resource):
     @jwt_required()
