@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from config import app,db,api
 from models import Admin, Patient
 
-app = Flask(__name__)
+
 
 
 
