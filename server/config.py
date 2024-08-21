@@ -16,7 +16,13 @@ app.secret_key = b"\xa4\x82\x9fs\xf2\x81\xa4'&\xfd\xf1\x07\xe2\x1b>\xc7"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-CORS(app)
+cors = CORS(app)
+cors.init_app(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    send_wildcard=True,
+    supports_credentials=True,
+)
 
 
 metadata = MetaData(naming_convention={

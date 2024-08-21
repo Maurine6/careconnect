@@ -477,5 +477,6 @@ api.add_resource(SingleBillResource, '/bills/me', endpoint='bills_self')
 api.add_resource(DoctorResource, '/doctors')
 api.add_resource(SingleDoctorResource, '/doctors/<int:doctor_id>')
 api.add_resource(checkSession,'/check_session',endpoint='check_session')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
