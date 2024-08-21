@@ -17,12 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
 cors = CORS(app)
-cors.init_app(
-    app,
-    resources={r"/*": {"origins": "*"}},
-    send_wildcard=True,
-    supports_credentials=True,
-)
+
 
 
 metadata = MetaData(naming_convention={
